@@ -1,0 +1,115 @@
+@import url("./margin.css");
+
+.ant-layout-sider-children {
+  background-color: #245953 !important;
+}
+
+.ant-menu {
+  background-color: #245953 !important;
+}
+
+.ant-menu-item-selected {
+  background-color: #408e91 !important;
+  border: 2px solid #e49393;
+  border-radius: 30px !important;
+}
+
+.ant-layout {
+  height: 100vh;
+}
+
+.tolfa-menu-logo {
+  padding: 10px;
+  letter-spacing: 4px;
+  font-size: 40px;
+  color: #e49393;
+  font-weight: 600;
+  text-shadow: -2px 1px #fff, -2px 1px #fff, -2px -1px #fff, 2px -2px #fff,
+    2px 1px #fff, -2px -2px #fff, -1px 1px #fff, 1px -2px #fff;
+}
+
+.cs-dis-flex {
+  display: flex;
+}
+
+.cs-hrz-center {
+  justify-content: center;
+}
+
+.cs-vt-center {
+  align-items: center;
+}
+
+.cs-menu-icon {
+  width: 25px;
+  height: 25px;
+}
+
+.cs-pointer {
+  cursor: pointer;
+}
+
+.cs-theme-card {
+  background-color: #e49393 !important;
+}
+
+.cs-float-right {
+  float: right;
+}
+
+.cs-jc-end {
+  justify-content: end;
+}
+
+.cs-theme-button {
+  background-color: #245953 !important;
+  color: #fff;
+}
+
+.cs-theme-button.ant-btn-default:not(:disabled):hover {
+  color: #fff !important;
+  border-color: #408e91 !important;
+}
+
+.ant-btn-default {
+  border: none;
+}
+
+.ant-btn-primary {
+  background-color: #245953 !important;
+}
+
+.admission-table-profile-image {
+  width: 80px !important;
+  height: 80px !important;
+  border-radius: 50%;
+}
+
+.custom-image-uploader {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #333;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.cs-show-image {
+  width: 100%;
+  height: auto;
+}
+
+.divider {
+  display: flex;
+  clear: both;
+  width: 100%;
+  min-width: 100%;
+  margin: 12px 0;
+  height: 1px;
+  background-color: #3999;
+}
+
+.cs-w-100 {
+  width: 100%;
+}
