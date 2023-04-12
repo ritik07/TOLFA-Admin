@@ -81,23 +81,23 @@ const Admission = () => {
               placeholder="ABC Status"
               style={{ width: "100%" }}
               options={[
-                {
-                  value: 'jack',
-                  label: 'Jack',
-                },
-                {
-                  value: 'lucy',
-                  label: 'Lucy',
-                },
-                {
-                  value: 'Yiminghe',
-                  label: 'yiminghe',
-                },
-                {
-                  value: 'disabled',
-                  label: 'Disabled',
-                  disabled: true,
-                },
+                // {
+                //   value: 'jack',
+                //   label: 'Jack',
+                // },
+                // {
+                //   value: 'lucy',
+                //   label: 'Lucy',
+                // },
+                // {
+                //   value: 'Yiminghe',
+                //   label: 'yiminghe',
+                // },
+                // {
+                //   value: 'disabled',
+                //   label: 'Disabled',
+                //   disabled: true,
+                // },
               ]}
             />
           </Col>
@@ -108,23 +108,23 @@ const Admission = () => {
               placeholder="Type"
               style={{ width: "100%" }}
               options={[
-                {
-                  value: 'jack',
-                  label: 'Jack',
-                },
-                {
-                  value: 'lucy',
-                  label: 'Lucy',
-                },
-                {
-                  value: 'Yiminghe',
-                  label: 'yiminghe',
-                },
-                {
-                  value: 'disabled',
-                  label: 'Disabled',
-                  disabled: true,
-                },
+                // {
+                //   value: 'jack',
+                //   label: 'Jack',
+                // },
+                // {
+                //   value: 'lucy',
+                //   label: 'Lucy',
+                // },
+                // {
+                //   value: 'Yiminghe',
+                //   label: 'yiminghe',
+                // },
+                // {
+                //   value: 'disabled',
+                //   label: 'Disabled',
+                //   disabled: true,
+                // },
               ]}
             />
           </Col>
@@ -150,23 +150,23 @@ const Admission = () => {
               placeholder="Breed"
               style={{ width: "100%" }}
               options={[
-                {
-                  value: 'jack',
-                  label: 'Jack',
-                },
-                {
-                  value: 'lucy',
-                  label: 'Lucy',
-                },
-                {
-                  value: 'Yiminghe',
-                  label: 'yiminghe',
-                },
-                {
-                  value: 'disabled',
-                  label: 'Disabled',
-                  disabled: true,
-                },
+                // {
+                //   value: 'jack',
+                //   label: 'Jack',
+                // },
+                // {
+                //   value: 'lucy',
+                //   label: 'Lucy',
+                // },
+                // {
+                //   value: 'Yiminghe',
+                //   label: 'yiminghe',
+                // },
+                // {
+                //   value: 'disabled',
+                //   label: 'Disabled',
+                //   disabled: true,
+                // },
               ]}
             />
           </Col>
