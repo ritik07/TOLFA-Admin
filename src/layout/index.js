@@ -3,12 +3,14 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   PieChartOutlined,
+  MailOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
 //icon
 import AddmissionIcon from "../static/images/icons/pet-care.png";
 import MenuIcon from "../static/images/icons/menu.png";
+import { menuItem } from "../constants/menu";
 
 const { Header, Sider, Content } = Layout;
 
@@ -20,6 +22,16 @@ const LayoutWrapper = () => {
     navigate(e.key);
     console.log("click ", e);
   };
+
+  function getItem(label, key, icon, children, type) {
+    return {
+      key,
+      icon,
+      children,
+      label,
+      type,
+    };
+  }
 
   return (
     <Layout>
@@ -35,23 +47,7 @@ const LayoutWrapper = () => {
           mode="inline"
           onClick={onClickMenu}
           defaultSelectedKeys={["/" + window.location.pathname.split("/")[1]]}
-          items={[
-            {
-              key: "/",
-              icon: <PieChartOutlined />,
-              label: "Dashboard",
-            },
-            {
-              key: "/admission",
-              icon: (
-                <img
-                  src={AddmissionIcon}
-                  style={{ width: 15, height: "auto" }}
-                />
-              ),
-              label: "Admission",
-            },
-          ]}
+          items={menuItem}
         />
       </Sider>
       <Layout className="site-layout">

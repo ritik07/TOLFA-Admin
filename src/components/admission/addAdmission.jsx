@@ -4,6 +4,7 @@ import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
 import RescueLocation from './form-component/rescueLocation';
 import BasicInfo from './form-component/basicInfo';
 import AnimalInfo from './form-component/animalInfo';
+import AnimalStatus from './form-component/animalStatus';
 
 const AddAdmission = ({ isModalOpen, setIsModalOpen }) => {
   const [form] = Form.useForm();
@@ -41,6 +42,7 @@ const AddAdmission = ({ isModalOpen, setIsModalOpen }) => {
             <BasicInfo form={form} />
             <RescueLocation form={form} />
             <AnimalInfo form={form} />
+            <AnimalStatus form={form} />
           </Form>
         </div>
       </Modal>

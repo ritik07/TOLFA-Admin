@@ -61,6 +61,10 @@
   justify-content: end;
 }
 
+.cs-jc-sb {
+  justify-content: space-between;
+}
+
 .cs-theme-button {
   background-color: #245953 !important;
   color: #fff;
@@ -112,4 +116,16 @@
 
 .cs-w-100 {
   width: 100%;
+}
+
+.color-box {
+  margin: 2px;
+  width: 20px;
+  aspect-ratio: 1/1;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+
+.cs-h-100vh {
+  height: calc(100vh - 430px);
 }
