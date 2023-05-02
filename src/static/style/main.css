@@ -1,4 +1,6 @@
 @import url("./margin.css");
+@import url("./padding.css");
+@import url("./font.css");
 
 .ant-layout-sider-children {
   background-color: #245953 !important;
@@ -128,4 +130,13 @@
 
 .cs-h-100vh {
   height: calc(100vh - 430px);
+}
+
+.cs-h-100 {
+  height: 100vh;
+}
+
+.cs-login-title{
+  color: #408e91;
+  font-weight: 800;
 }

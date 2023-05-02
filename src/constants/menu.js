@@ -19,7 +19,7 @@ function getItem(label, key, icon, children, type) {
 
 export const menuItem = [
   {
-    key: "/",
+    key: "/home",
     icon: <PieChartOutlined />,
     label: "Dashboard",
   },

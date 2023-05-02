@@ -1,0 +1,1 @@
+export const setUserProfile = "SET_USER_PROFILE";
