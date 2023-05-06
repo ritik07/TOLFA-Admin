@@ -1,14 +1,15 @@
-import { Modal, Row, Col, Form, Input, message } from "antd";
+import { Modal, Row, Col, Form, Input, message, Select } from "antd";
 import { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../../constants/server";
 import { handleLogout } from "../../../global/function.global";
 
-const AddRescueType = ({
+const ModalBreed = ({
   isModalOpen,
   setIsModalOpen,
   getTableData,
   messageApi,
+  breedTypeData,
 }) => {
   const USER_ID = localStorage.getItem("user_id");
   const USER_TOKEN = sessionStorage.getItem("user_token");
@@ -28,7 +29,7 @@ const AddRescueType = ({
       };
       setLoading(true);
       let response = await axios.post(
-        BASE_URL + `/rescue-type/create?token=${USER_TOKEN}`,
+        BASE_URL + `/breed/create?token=${USER_TOKEN}`,
         payload
       );
       console.log("response", response);
@@ -60,7 +61,7 @@ const AddRescueType = ({
     <>
       <Modal
         maskClosable={false}
-        title="Add rescue type"
+        title="Add Species type"
         open={isModalOpen}
         onCancel={handleCancel}
         okText="Submit"
@@ -80,7 +81,8 @@ const AddRescueType = ({
         <div>
           <Form layout="vertical" form={form}>
             <Form.Item
-              name="name"
+              label="Species type"
+              name="species_id"
               rules={[
                 {
                   required: true,
@@ -88,7 +90,29 @@ const AddRescueType = ({
                 },
               ]}
             >
-              <Input placeholder="Enter value of type of rescue" />
+              <Select
+                placeholder="Select species type"
+                style={{ width: "100%" }}
+                options={breedTypeData.map((item, index) => {
+                  return {
+                    value: item.id,
+                    label: item.name,
+                  };
+                })}
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="name"
+              label="Breed name"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter value!",
+                },
+              ]}
+            >
+              <Input placeholder="Enter value of type of breed" />
             </Form.Item>
           </Form>
         </div>
@@ -96,4 +120,4 @@ const AddRescueType = ({
     </>
   );
 };
-export default AddRescueType;
+export default ModalBreed;

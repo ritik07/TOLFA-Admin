@@ -1,14 +1,15 @@
 import { Modal, Row, Col, Form, Input, message } from "antd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../../constants/server";
 import { handleLogout } from "../../../global/function.global";
 
-const AddRescueType = ({
+const UserRole = ({
   isModalOpen,
   setIsModalOpen,
   getTableData,
   messageApi,
+  rowData,
 }) => {
   const USER_ID = localStorage.getItem("user_id");
   const USER_TOKEN = sessionStorage.getItem("user_token");
@@ -16,6 +17,11 @@ const AddRescueType = ({
   const [form] = Form.useForm();
 
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    console.log("rowData", rowData);
+  }, []);
+
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -28,7 +34,7 @@ const AddRescueType = ({
       };
       setLoading(true);
       let response = await axios.post(
-        BASE_URL + `/rescue-type/create?token=${USER_TOKEN}`,
+        BASE_URL + `/role/create?token=${USER_TOKEN}`,
         payload
       );
       console.log("response", response);
@@ -60,7 +66,7 @@ const AddRescueType = ({
     <>
       <Modal
         maskClosable={false}
-        title="Add rescue type"
+        title="Add user role"
         open={isModalOpen}
         onCancel={handleCancel}
         okText="Submit"
@@ -96,4 +102,4 @@ const AddRescueType = ({
     </>
   );
 };
-export default AddRescueType;
+export default UserRole;

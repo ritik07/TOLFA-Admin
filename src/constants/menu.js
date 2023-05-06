@@ -40,6 +40,13 @@ export const menuItem = [
       "group"
     ),
     getItem(
+      "Animal",
+      "animal-master",
+      null,
+      [getItem("Status", "status"), getItem("Breed", "breed")],
+      "group"
+    ),
+    getItem(
       "User",
       "user-master",
       null,

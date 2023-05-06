@@ -1,10 +1,15 @@
 import moment from "moment";
 
-export const rescueTypeColumn = () => [
+export const speciesColumn = () => [
   {
     title: "Name",
     dataIndex: "name",
     key: "name",
+  },
+  {
+    title: "Rescue type name",
+    dataIndex: "rescue_type_name",
+    key: "rescue_type_name",
   },
   {
     title: "Created by",

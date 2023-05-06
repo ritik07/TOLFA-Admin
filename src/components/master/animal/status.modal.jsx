@@ -4,7 +4,7 @@ import axios from "axios";
 import { BASE_URL } from "../../../constants/server";
 import { handleLogout } from "../../../global/function.global";
 
-const AddRescueType = ({
+const ModalStatus = ({
   isModalOpen,
   setIsModalOpen,
   getTableData,
@@ -28,7 +28,7 @@ const AddRescueType = ({
       };
       setLoading(true);
       let response = await axios.post(
-        BASE_URL + `/rescue-type/create?token=${USER_TOKEN}`,
+        BASE_URL + `/animal-status/create?token=${USER_TOKEN}`,
         payload
       );
       console.log("response", response);
@@ -60,7 +60,7 @@ const AddRescueType = ({
     <>
       <Modal
         maskClosable={false}
-        title="Add rescue type"
+        title="Add status"
         open={isModalOpen}
         onCancel={handleCancel}
         okText="Submit"
@@ -88,7 +88,7 @@ const AddRescueType = ({
                 },
               ]}
             >
-              <Input placeholder="Enter value of type of rescue" />
+              <Input placeholder="Enter value of status" />
             </Form.Item>
           </Form>
         </div>
@@ -96,4 +96,4 @@ const AddRescueType = ({
     </>
   );
 };
-export default AddRescueType;
+export default ModalStatus;

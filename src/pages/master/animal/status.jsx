@@ -6,8 +6,9 @@ import { BASE_URL } from "../../../constants/server";
 import AddRescueType from "../../../components/master/rescue/rescueType.modal";
 import Loader from "../../../components/loader/loader";
 import { handleLogout } from "../../../global/function.global";
+import ModalStatus from "../../../components/master/animal/status.modal";
 
-const RescueType = () => {
+const Status = () => {
   const USER_TOKEN = sessionStorage.getItem("user_token");
 
   const [messageApi, contextHolder] = message.useMessage();
@@ -23,7 +24,7 @@ const RescueType = () => {
   const getTableData = async () => {
     try {
       let response = await axios.get(
-        BASE_URL + `/rescue-type?token=${USER_TOKEN}`
+        BASE_URL + `/animal-status?token=${USER_TOKEN}`
       );
       console.log("response.data", response.data);
       setTableData(response.data.data);
@@ -46,7 +47,7 @@ const RescueType = () => {
       {contextHolder}
       <div className="cs-dis-flex cs-jc-end cs-m-10">
         <Button className="cs-theme-button" onClick={handleOnAddAdmission}>
-          Add rescue type
+          Add status
         </Button>
       </div>
 
@@ -59,7 +60,7 @@ const RescueType = () => {
       </div>
 
       {isModalOpen ? (
-        <AddRescueType
+        <ModalStatus
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           getTableData={getTableData}
@@ -74,4 +75,4 @@ const RescueType = () => {
   );
 };
 
-export default RescueType;
+export default Status;

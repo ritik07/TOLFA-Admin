@@ -10,6 +10,11 @@ import Login from "./pages/login";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Profile from "./pages/profile";
+import UserRole from "./pages/master/user/userRole";
+import User from "./pages/master/user/user";
+import SpeciesType from "./pages/master/rescue/speciesType";
+import Status from "./pages/master/animal/status";
+import Breed from "./pages/master/animal/breed";
 
 function App() {
   const navigate = useNavigate();
@@ -36,6 +41,11 @@ function App() {
               <Route path="/admission" element={<Admission />} />
               <Route path="/rescue-type" element={<RescueType />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/user-role" element={<UserRole />} />
+              <Route path="/user" element={<User />} />
+              <Route path="/species-type" element={<SpeciesType />} />
+              <Route path="/status" element={<Status />} />
+              <Route path="/breed" element={<Breed />} />
             </Route>
           ) : (
             <Route path="/login" element={<Login />} />

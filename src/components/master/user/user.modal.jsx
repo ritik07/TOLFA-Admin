@@ -1,14 +1,15 @@
-import { Modal, Row, Col, Form, Input, message } from "antd";
+import { Modal, Row, Col, Form, Input, message, Select } from "antd";
 import { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../../constants/server";
 import { handleLogout } from "../../../global/function.global";
 
-const AddRescueType = ({
+const UserRole = ({
   isModalOpen,
   setIsModalOpen,
   getTableData,
   messageApi,
+  userRoles,
 }) => {
   const USER_ID = localStorage.getItem("user_id");
   const USER_TOKEN = sessionStorage.getItem("user_token");
@@ -16,6 +17,7 @@ const AddRescueType = ({
   const [form] = Form.useForm();
 
   const [loading, setLoading] = useState(false);
+
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -28,7 +30,7 @@ const AddRescueType = ({
       };
       setLoading(true);
       let response = await axios.post(
-        BASE_URL + `/rescue-type/create?token=${USER_TOKEN}`,
+        BASE_URL + `/user/create?token=${USER_TOKEN}`,
         payload
       );
       console.log("response", response);
@@ -60,7 +62,7 @@ const AddRescueType = ({
     <>
       <Modal
         maskClosable={false}
-        title="Add rescue type"
+        title="Add user"
         open={isModalOpen}
         onCancel={handleCancel}
         okText="Submit"
@@ -88,7 +90,54 @@ const AddRescueType = ({
                 },
               ]}
             >
-              <Input placeholder="Enter value of type of rescue" />
+              <Input placeholder="Enter name of user" />
+            </Form.Item>
+
+            <Form.Item
+              name="phone_no"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter value!",
+                },
+              ]}
+            >
+              <Input type="number" placeholder="Enter phone no of user" />
+            </Form.Item>
+
+            <Form.Item
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter value!",
+                },
+              ]}
+            >
+              <Input placeholder="Enter email of user" />
+            </Form.Item>
+
+            <Form.Item
+              label="User role"
+              name="role_data"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter value!",
+                },
+              ]}
+            >
+              <Select
+                mode="multiple"
+                placeholder="Select User role"
+                style={{ width: "100%" }}
+                options={userRoles.map((item, index) => {
+                  return {
+                    value: item.id,
+                    label: item.name,
+                  };
+                })}
+              />
             </Form.Item>
           </Form>
         </div>
@@ -96,4 +145,4 @@ const AddRescueType = ({
     </>
   );
 };
-export default AddRescueType;
+export default UserRole;

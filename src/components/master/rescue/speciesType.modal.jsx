@@ -1,14 +1,15 @@
-import { Modal, Row, Col, Form, Input, message } from "antd";
+import { Modal, Row, Col, Form, Input, message, Select } from "antd";
 import { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../../constants/server";
 import { handleLogout } from "../../../global/function.global";
 
-const AddRescueType = ({
+const ModalSpeciesType = ({
   isModalOpen,
   setIsModalOpen,
   getTableData,
   messageApi,
+  rescueTypeData,
 }) => {
   const USER_ID = localStorage.getItem("user_id");
   const USER_TOKEN = sessionStorage.getItem("user_token");
@@ -28,7 +29,7 @@ const AddRescueType = ({
       };
       setLoading(true);
       let response = await axios.post(
-        BASE_URL + `/rescue-type/create?token=${USER_TOKEN}`,
+        BASE_URL + `/species-type/create?token=${USER_TOKEN}`,
         payload
       );
       console.log("response", response);
@@ -60,7 +61,7 @@ const AddRescueType = ({
     <>
       <Modal
         maskClosable={false}
-        title="Add rescue type"
+        title="Add Species type"
         open={isModalOpen}
         onCancel={handleCancel}
         okText="Submit"
@@ -80,6 +81,28 @@ const AddRescueType = ({
         <div>
           <Form layout="vertical" form={form}>
             <Form.Item
+              label="Rescue type"
+              name="rescue_type_id"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter value!",
+                },
+              ]}
+            >
+              <Select
+                placeholder="Select rescue type"
+                style={{ width: "100%" }}
+                options={rescueTypeData.map((item, index) => {
+                  return {
+                    value: item.id,
+                    label: item.name,
+                  };
+                })}
+              />
+            </Form.Item>
+
+            <Form.Item
               name="name"
               rules={[
                 {
@@ -96,4 +119,4 @@ const AddRescueType = ({
     </>
   );
 };
-export default AddRescueType;
+export default ModalSpeciesType;

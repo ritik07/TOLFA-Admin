@@ -16,6 +16,7 @@ const Login = () => {
       let response = await axios.post(BASE_URL + "/auth/login", value);
       console.log("response", response.data.data);
       let storeDetail = JSON.stringify(response.data.data.id);
+      sessionStorage.setItem("user_token", response.data.data.token);
       localStorage.setItem("user_id", storeDetail);
       console.log("storeDetail set", storeDetail);
       localStorage.setItem("logged_in", true);
