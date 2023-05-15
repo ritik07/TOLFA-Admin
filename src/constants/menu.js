@@ -47,6 +47,19 @@ export const menuItem = [
       "group"
     ),
     getItem(
+      "Location",
+      "location-master",
+      null,
+      [
+        getItem("State", "state"),
+        getItem("City", "city"),
+        getItem("City area", "city-area"),
+        getItem("Tolfa area", "tolfa-area"),
+        getItem("Tolfa block number", "tolfa-block-number"),
+      ],
+      "group"
+    ),
+    getItem(
       "User",
       "user-master",
       null,
