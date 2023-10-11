@@ -1,0 +1,20 @@
+.gradient-overlay {
+  position: relative;
+  width: 100%;
+}
+
+.gradient-overlay::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 0, 0, 0.093),
+    rgba(0, 0, 255, 0.2)
+  ); /* Adjust the colors and opacity stops as needed */
+  z-index: 1;
+}

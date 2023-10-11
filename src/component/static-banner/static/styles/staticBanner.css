@@ -1,0 +1,69 @@
+.cs-static-image {
+  width: 100%;
+  object-fit: cover;
+  height: calc(100vh - 64px);
+}
+
+.cs-static-banner-title {
+  top: 40%;
+  left: 10%;
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: #33c1c1;
+}
+
+.cs-static-banner-brief {
+  top: 44%;
+  left: 10%;
+  font-weight: 600;
+  font-size: 2.5rem;
+  color: #000;
+}
+
+.cs-static-banner-content {
+  word-break: keep-all;
+  max-width: 400px;
+}
+
+.cs-static-banner-title {
+  word-break: keep-all;
+  max-width: 300px;
+}
+
+.cs-static-banner-feature-image {
+  width: 100%;
+  object-fit: cover;
+}
+
+.cs-static-banner-feature-image-position {
+  top: 10%;
+  right: 10%;
+}
+
+@media (max-width: 767px) {
+  /* Styles for mobile devices */
+  /* Add your CSS rules for mobile view here */
+
+  .cs-static-banner-title {
+    top: 20%;
+    left: 10%;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: #33c1c1;
+  }
+  
+  .cs-static-banner-brief {
+    top: 24%;
+    left: 10%;
+    font-weight: 600;
+    font-size: 2.5rem;
+    color: #000;
+  }
+
+  
+  .cs-static-banner-feature-image-position {
+    top: 35%;
+    right: 10%;
+  }
+  /* ... */
+}

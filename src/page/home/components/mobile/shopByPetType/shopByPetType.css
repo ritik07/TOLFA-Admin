@@ -1,0 +1,16 @@
+.cs-shop-pet-type-img {
+  padding: 0px 20px;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.cs-shop-pet-type-img-container {
+  padding: 8px;
+  background-color: #e1efef;
+  border-radius: 50%;
+}
+
+.cs-gap-10{
+  padding: 10px;
+}

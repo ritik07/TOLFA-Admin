@@ -1,0 +1,18 @@
+.cs-header-menu {
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  color: black;
+}
+
+.cs-header-menu-icon {
+  font-size: 20px;
+  font-weight: 400;
+  cursor: pointer;
+  color: black;
+}
+
+.cs-mobile-header-bottom {
+  -moz-box-shadow: 0 8px 6px -6px black;
+  box-shadow: -1px 2px 10px -6px black;
+}

@@ -1,0 +1,23 @@
+.ant-layout-header {
+  height: 64px;
+  padding: 0 50px;
+  line-height: 64px;
+  background: #fff !important;
+}
+
+@media (max-width: 767px) {
+  /* Styles for mobile devices */
+  /* Add your CSS rules for mobile view here */
+
+  .ant-layout-header {
+    height: max-content;
+    padding: 0 0px !important;
+    line-height: 64px;
+    background: #fff !important;
+  }
+  
+  .cs-layout .ant-layout-header{
+    padding: 0 0px !important;
+  }
+  /* ... */
+}
