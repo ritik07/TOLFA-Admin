@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Row, Col, Form, Divider, Input, Space, Button, Select, Radio } from 'antd'
 import RescuerDetail from './rescuerDetail';
 
-const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlockNumber }) => {
+const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlockNumber, setRescueByDetail, rescueByDetail }) => {
   const [areaList, setAreaList] = useState([
     { name: 'sastri circle', state: "ajmer", }, { name: 'adarsh nagar', state: 'ajmer' },
     { name: 'pushkar ghat', state: 'pushkar' }, { name: 'main chok', state: 'pushkar' }])
@@ -23,6 +23,7 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
 
   const onChangeState = (e) => {
     form.setFieldsValue({ area: undefined })
+    console.log("e", e);
     setSelectedState(e)
   }
 
@@ -53,6 +54,7 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
         <Col xl={12}>
           <Form.Item name="city" label="City">
             <Select
+              disabled={!selectedState}
               placeholder="Name of city"
               style={{ width: "100%" }}
               onChange={(e) => onChangeCity(e)}>
@@ -66,7 +68,6 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
         <Col xl={12}>
           <Form.Item label="Area" name='area'>
             <Select
-              // disabled={!selectedState}
               placeholder="Name of area"
               style={{ width: "100%" }}>
               {cityArea.map((item, index) => {

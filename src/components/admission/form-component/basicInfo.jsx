@@ -51,11 +51,11 @@ const BasicInfo = ({ rescueTypeData, speciesType, statusType, rescueNumber, form
           </Form.Item>
         </Col>
 
-        <Col xl={12}>
+        {/* <Col xl={12}>
           <Form.Item label="Rescue Number" name="rescue_number">
             <Input placeholder='Rescue Number' disabled />
           </Form.Item>
-        </Col>
+        </Col> */}
 
         <Col xl={12}>
           <Form.Item label="Status" name="status_id">

@@ -43,20 +43,20 @@ function App() {
           {localStorage.getItem("logged_in") ? (
             <Route element={<LayoutWrapper />}>
               <Route path="/home" element={<Dashboard />} />
-              
+
               <Route path="/admission" element={<Admission />} />
-              
+
               <Route path="/profile" element={<Profile />} />
-              
+
               <Route path="/user-role" element={<UserRole />} />
               <Route path="/user" element={<User />} />
-              
+
               <Route path="/rescue-type" element={<RescueType />} />
               <Route path="/species-type" element={<SpeciesType />} />
 
               <Route path="/status" element={<Status />} />
               <Route path="/breed" element={<Breed />} />
-              
+
               <Route path="/state" element={<State />} />
               <Route path="/city" element={<City />} />
               <Route path="/city-area" element={<CityArea />} />

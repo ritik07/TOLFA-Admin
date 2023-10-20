@@ -13,6 +13,11 @@ const AddAdmission = ({ isModalOpen, setIsModalOpen, fieldsData }) => {
   const USER_TOKEN = sessionStorage.getItem("user_token");
   const USER_ID = localStorage.getItem("user_id");
 
+  /**
+   * @States
+   */
+  const [rescueByDetail, setRescueByDetail] = useState(false)
+
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -59,11 +64,16 @@ const AddAdmission = ({ isModalOpen, setIsModalOpen, fieldsData }) => {
 
             <RescueLocation form={form} stateData={fieldsData.stateData} city={fieldsData.city}
               cityArea={fieldsData.cityArea} tolfaArea={fieldsData.tolfaArea}
-              tolfaBlockNumber={fieldsData.tolfaBlockNumber} />
+              tolfaBlockNumber={fieldsData.tolfaBlockNumber}
+              setRescueByDetail={setRescueByDetail} rescueByDetail={rescueByDetail} />
 
-            <AnimalInfo form={form} />
+            {rescueByDetail ?
+              <>
+                <AnimalInfo form={form} />
 
-            <AnimalStatus form={form} />
+                <AnimalStatus form={form} />
+              </>
+              : null}
           </Form>
         </div>
       </Modal>
