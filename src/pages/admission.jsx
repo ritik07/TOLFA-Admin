@@ -23,7 +23,6 @@ const Admission = () => {
     getRescueTypeData()
     getSpeciesType()
     getStatusTypeData()
-    getRescueNumber()
     // 2
     getStateList()
     getCityList()
@@ -35,7 +34,6 @@ const Admission = () => {
   const getTolfaBlockNumber = async () => {
     try {
       let response = await axios.get(BASE_URL + `/block-number?token=${USER_TOKEN}`);
-      console.log("response.data", response.data);
       setFieldsData((prevFieldData) => ({
         ...prevFieldData,
         tolfaBlockNumber: response.data.data
@@ -51,7 +49,6 @@ const Admission = () => {
   const getTolfaArea = async () => {
     try {
       let response = await axios.get(BASE_URL + `/area?token=${USER_TOKEN}`);
-      console.log("response.data", response.data);
       setFieldsData((prevFieldData) => ({
         ...prevFieldData,
         tolfaArea: response.data.data
@@ -68,7 +65,6 @@ const Admission = () => {
   const getCityAreaList = async () => {
     try {
       let response = await axios.get(BASE_URL + `/city-area?token=${USER_TOKEN}`);
-      console.log("response.data", response.data);
       setFieldsData((prevFieldData) => ({
         ...prevFieldData,
         cityArea: response.data.data
@@ -84,7 +80,6 @@ const Admission = () => {
   const getCityList = async () => {
     try {
       let response = await axios.get(BASE_URL + `/city?token=${USER_TOKEN}`);
-      console.log("response.data", response.data);
       setFieldsData((prevFieldData) => ({
         ...prevFieldData,
         city: response.data.data
@@ -100,7 +95,6 @@ const Admission = () => {
   const getStateList = async () => {
     try {
       let response = await axios.get(BASE_URL + `/state?token=${USER_TOKEN}`);
-      console.log("response.data", response.data);
       setFieldsData(prevFieldsData => ({
         ...prevFieldsData,
         stateData: response.data.data
@@ -112,26 +106,6 @@ const Admission = () => {
       console.log("error", error);
     }
   };
-
-  const getRescueNumber = async () => {
-    try {
-      let response = await axios.get(
-        BASE_URL + `/admission-status/get-lastest-rescue-number?token=${USER_TOKEN}`
-      );
-      console.log("response.data-->", response.data);
-      setFieldsData(prevFieldsData => ({
-        ...prevFieldsData,
-        rescueNumber: response.data.data[0].count
-      }));
-      console.log("response.data.data ? response.data.data + 1 : 1", response.data.data.count ? (response.data.data.count + 1) : 1);
-      console.log("data", response.data.data);
-    } catch (error) {
-      if (error.response.data.code === 401) {
-        handleLogout();
-      }
-      console.log("error", error);
-    }
-  }
 
 
   const getStatusTypeData = async () => {
@@ -158,7 +132,6 @@ const Admission = () => {
       let response = await axios.get(
         BASE_URL + `/rescue-type?token=${USER_TOKEN}`
       );
-      console.log("response.data", response.data);
       setFieldsData(prevFieldsData => ({
         ...prevFieldsData,
         rescueTypeData: response.data.data
@@ -178,7 +151,6 @@ const Admission = () => {
       let response = await axios.get(
         BASE_URL + `/species-type?token=${USER_TOKEN}`
       );
-      console.log("response.data", response.data);
       setFieldsData(prevFieldsData => ({
         ...prevFieldsData,
         speciesType: response.data.data

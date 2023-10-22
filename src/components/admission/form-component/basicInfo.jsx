@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import { Row, Col, Form, Input, Select } from 'antd'
+import React, { useEffect } from 'react';
+import { Row, Col, Form, Select } from 'antd';
 
-const BasicInfo = ({ rescueTypeData, speciesType, statusType, rescueNumber, form }) => {
-  const [rescueType, setRescueType] = useState(false)
-  const [filterSpeciesType, setFilterSpeciesType] = useState([])
+const BasicInfo = ({ rescueTypeData, speciesTypeData, statusTypeData, form }) => {
 
+  /**
+   * @watch
+   */
+  let rescueTypeId = Form.useWatch('rescue_type_id', form);
 
+  /**
+   * @effect
+   */
   useEffect(() => {
-    form.setFieldsValue({ rescue_number: rescueNumber + 1 })
-  }, [])
+    form.setFieldsValue({ species_id: undefined })
+  }, [rescueTypeId])
 
-  useEffect(() => {
-    if (rescueType) {
-      setFilterSpeciesType(speciesType.filter((x) => x.rescue_type_id == rescueType))
-      form.setFieldsValue({ species_id: undefined })
-    }
-  }, [rescueType])
-  
   return (
     <div>
       <h3>Rescue Info</h3>
@@ -27,11 +25,12 @@ const BasicInfo = ({ rescueTypeData, speciesType, statusType, rescueNumber, form
             <Select
               placeholder="Type of rescue"
               style={{ width: "100%" }}
-              onChange={(value) => { setRescueType(value) }}
             >
-              {rescueTypeData.map((item, index) => {
-                return <Select.Option key={item.id} value={item.value}>{item.name}</Select.Option>
-              })}
+              {rescueTypeData.map((item) => (
+                <Select.Option key={item.id} value={item.id}>
+                  {item.name}
+                </Select.Option>
+              ))}
             </Select>
           </Form.Item>
         </Col>
@@ -39,23 +38,18 @@ const BasicInfo = ({ rescueTypeData, speciesType, statusType, rescueNumber, form
         <Col xl={12}>
           <Form.Item label="Species" name='species_id'>
             <Select
-              disabled={!rescueType}
+              disabled={!form.getFieldValue('rescue_type_id')}
               placeholder="Species"
               style={{ width: "100%" }}
             >
-              {filterSpeciesType.map((item, index) => {
-                return <Select.Option key={item.id} value={item.value}>{item.name}</Select.Option>
-              })}
+              {speciesTypeData.filter((x) => x.rescue_type_id === +form.getFieldValue('rescue_type_id')).map((item) => (
+                <Select.Option key={item.id} value={item.id}>
+                  {item.name}
+                </Select.Option>
+              ))}
             </Select>
-
           </Form.Item>
         </Col>
-
-        {/* <Col xl={12}>
-          <Form.Item label="Rescue Number" name="rescue_number">
-            <Input placeholder='Rescue Number' disabled />
-          </Form.Item>
-        </Col> */}
 
         <Col xl={12}>
           <Form.Item label="Status" name="status_id">
@@ -63,15 +57,17 @@ const BasicInfo = ({ rescueTypeData, speciesType, statusType, rescueNumber, form
               placeholder="Status"
               style={{ width: "100%" }}
             >
-              {statusType.map((item, index) => {
-                return <Select.Option key={item.id} value={item.value}>{item.name}</Select.Option>
-              })}
+              {statusTypeData.map((item) => (
+                <Select.Option key={item.id} value={item.id}>
+                  {item.name}
+                </Select.Option>
+              ))}
             </Select>
           </Form.Item>
         </Col>
       </Row>
     </div>
-  )
-}
+  );
+};
 
-export default BasicInfo
+export default BasicInfo;

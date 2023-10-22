@@ -51,6 +51,18 @@
   cursor: pointer;
 }
 
+.cs-vh-100 {
+  height: 100vh;
+}
+
+.cs-vh-fit {
+  height: calc(100vh - 150px);
+}
+
+.cs-scroll {
+  overflow: scroll;
+}
+
 .cs-theme-card {
   background-color: #e49393 !important;
 }
@@ -136,7 +148,7 @@
   height: 100vh;
 }
 
-.cs-login-title{
+.cs-login-title {
   color: #408e91;
   font-weight: 800;
 }

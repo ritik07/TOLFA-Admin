@@ -23,11 +23,23 @@ export const menuItem = [
     icon: <PieChartOutlined />,
     label: "Dashboard",
   },
-  {
-    key: "/admission",
-    icon: <img src={AddmissionIcon} style={{ width: 15, height: "auto" }} />,
-    label: "Admission",
-  },
+  // {
+  //   key: "/admission",
+  //   icon: <img src={AddmissionIcon} style={{ width: 15, height: "auto" }} />,
+  //   label: "Admission",
+  // },
+  getItem("Admission", "admission", <DatabaseOutlined />, [
+    getItem(
+      "Admission",
+      "admission",
+      null,
+      [
+        getItem("Add Admission", "add-admission"),
+        getItem("Admission List", "admission-list"),
+      ],
+      "group"
+    ),
+  ]),
   getItem("Master", "master", <DatabaseOutlined />, [
     getItem(
       "Rescue",

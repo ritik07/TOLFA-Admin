@@ -1,35 +1,75 @@
 import React, { useState, useEffect } from 'react'
 import { Row, Col, Form, Divider, Input, Space, Button, Select, Radio } from 'antd'
+import { useQuery } from 'react-query';
 import RescuerDetail from './rescuerDetail';
+import { fetchTolfaStaffListData } from '../../../services/master_service';
+import { defaultCaching } from '../../../constants/conifg'
+import { handleLogout } from '../../../global/function.global';
 
-const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlockNumber, setRescueByDetail, rescueByDetail }) => {
-  const [areaList, setAreaList] = useState([
-    { name: 'sastri circle', state: "ajmer", }, { name: 'adarsh nagar', state: 'ajmer' },
-    { name: 'pushkar ghat', state: 'pushkar' }, { name: 'main chok', state: 'pushkar' }])
+const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlockNumber, }) => {
+  const AUTH_TOKEN = localStorage.getItem('auth_token');
+
   const [rescueTeam, setRescueTeam] = useState([
     { name: 'Ramesh kumar', id: 122, }, { name: 'Dhanraj', id: 443 },
   ])
 
-  useEffect(() => {
+  /**
+   * @watch
+   */
+  let watchStateId = Form.useWatch('state_id', form);
+  let watchCityId = Form.useWatch('city_id', form);
+  let watchTolfaAreaId = Form.useWatch('tolfa_area_id', form);
+  let watchRescuedByTolfa = Form.useWatch('rescue_by_tolfa', form);
+  /**
+   * @common_function
+   */
 
-  }, [])
+  const handleQueryError = (error) => {
+    if (error.response?.data?.code === 401) {
+      handleLogout();
+    }
+  };
 
+  /**
+   * @state
+   */
   const [rescuedByTolfa, setRescuedByTolfa] = useState(undefined)
-  const [selectedState, setSelectedState] = useState(undefined)
 
+  /**
+   * @api_calls
+   */
+
+  // Define a query for rescue type data
+  const { data: staffListData, isLoading: staffListLoading, isError: staffListError } = useQuery(
+    'staffListData',
+    () => fetchTolfaStaffListData(AUTH_TOKEN),
+    {
+      ...defaultCaching,
+      onError: handleQueryError,
+      enabled: watchRescuedByTolfa ? watchRescuedByTolfa : false
+    }
+  );
+
+  /**
+   * @effects
+   */
+  useEffect(() => {
+    form.setFieldsValue({ city_id: undefined, area_id: undefined })
+  }, [watchStateId])
+
+  useEffect(() => {
+    form.setFieldsValue({ area_id: undefined })
+  }, [watchCityId])
+
+  useEffect(() => {
+    form.setFieldsValue({ tolfa_block_id: undefined })
+  }, [watchTolfaAreaId])
+
+  /** 
+  * @functions
+  */
   const onChangeRescuedBy = (value) => {
     setRescuedByTolfa(value)
-  }
-
-  const onChangeState = (e) => {
-    form.setFieldsValue({ area: undefined })
-    console.log("e", e);
-    setSelectedState(e)
-  }
-
-  const onChangeCity = (e) => {
-    form.setFieldsValue({ area: undefined })
-    setSelectedState(e)
   }
 
   return (
@@ -38,11 +78,10 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
       <div className='divider' />
       <Row gutter={[10, 10]}>
         <Col xl={12}>
-          <Form.Item name="state" label="State">
+          <Form.Item name="state_id" label="State">
             <Select
               placeholder="Name of state"
-              style={{ width: "100%" }}
-              onChange={(e) => onChangeState(e)}>
+              style={{ width: "100%" }}>
               {stateData.map((item, index) => {
                 return <Select.Option key={item.id} value={item.value}>{item.name}</Select.Option>
               })}
@@ -50,15 +89,13 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
           </Form.Item>
         </Col>
 
-
         <Col xl={12}>
-          <Form.Item name="city" label="City">
+          <Form.Item name="city_id" label="City">
             <Select
-              disabled={!selectedState}
+              disabled={!form.getFieldValue('state_id')}
               placeholder="Name of city"
-              style={{ width: "100%" }}
-              onChange={(e) => onChangeCity(e)}>
-              {city.map((item, index) => {
+              style={{ width: "100%" }}>
+              {city.filter((x) => x.state_id === +form.getFieldValue('state_id')).map((item, index) => {
                 return <Select.Option key={item.id} value={item.value}>{item.name}</Select.Option>
               })}
             </Select>
@@ -66,11 +103,12 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
         </Col>
 
         <Col xl={12}>
-          <Form.Item label="Area" name='area'>
+          <Form.Item label="Area" name='area_id'>
             <Select
+              disabled={!form.getFieldValue('city_id')}
               placeholder="Name of area"
               style={{ width: "100%" }}>
-              {cityArea.map((item, index) => {
+              {cityArea.filter((x) => x.city_id === +form.getFieldValue('city_id')).map((item, index) => {
                 return <Select.Option key={item.id} value={item.value}>{item.name}</Select.Option>
               })}
             </Select>
@@ -78,7 +116,13 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
         </Col>
 
         <Col xl={12}>
-          <Form.Item label="Tolfa Area" name='tolfa_area'>
+          <Form.Item label="Rescue address" name='rescue_address'>
+            <Input.TextArea placeholder='Rescue address' />
+          </Form.Item>
+        </Col>
+
+        <Col xl={12}>
+          <Form.Item label="Tolfa Area" name='tolfa_area_id'>
             <Select
               placeholder="Name of TOLFA area"
               style={{ width: "100%" }}
@@ -91,11 +135,12 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
         </Col>
 
         <Col xl={12}>
-          <Form.Item label="TOLFA BLOCK Number" name='tolfa_block_number'>
+          <Form.Item label="TOLFA BLOCK Number" name='tolfa_block_id'>
             <Select
+              disabled={!form.getFieldValue('tolfa_area_id')}
               placeholder="TOLFA BLOCK Number"
               style={{ width: "100%" }}>
-              {tolfaBlockNumber.map((item, index) => {
+              {tolfaBlockNumber.filter((x) => x.tolfa_area_id === +form.getFieldValue('tolfa_area_id')).map((item, index) => {
                 return <Select.Option key={item.id} value={item.value}>{item.name}</Select.Option>
               })}
             </Select>
@@ -103,11 +148,8 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
         </Col>
 
         <Col xl={12}>
-        </Col>
-
-        <Col xl={12}>
-          <Form.Item label="Rescued by TOLFA team?" name="rescued_by_tolfa">
-            <Radio.Group onChange={(e) => onChangeRescuedBy(e.target.value)}>
+          <Form.Item label="Rescued by TOLFA team?" name="rescue_by_tolfa">
+            <Radio.Group>
               <Radio value={true}>Yes</Radio>
               <Radio value={false}>No</Radio>
             </Radio.Group>
@@ -117,7 +159,7 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
         <Col xl={12}>
         </Col>
 
-        {rescuedByTolfa ?
+        {watchRescuedByTolfa ?
           <Col xl={12}>
             <Form.Item label="Rescue Team" name='rescue_team'>
               <Select
