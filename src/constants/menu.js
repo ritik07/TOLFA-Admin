@@ -28,6 +28,11 @@ export const menuItem = [
     icon: <img src={AddmissionIcon} style={{ width: 15, height: "auto" }} />,
     label: "Admission",
   },
+    {
+    key: "/caregiver",
+    // icon: <img src={AddmissionIcon} style={{ width: 15, height: "auto" }} />,
+    label: "Self Rescue Details",
+  },
   getItem("Master", "master", <DatabaseOutlined />, [
     getItem(
       "Rescue",
