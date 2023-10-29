@@ -6,7 +6,7 @@ const BasicInfo = ({ rescueTypeData, speciesTypeData, statusTypeData, form }) =>
   /**
    * @watch
    */
-  let rescueTypeId = Form.useWatch('rescue_type_id', form);
+  let rescueTypeId = Form.useWatch('type_of_rescue_id', form);
 
   /**
    * @effect
@@ -21,7 +21,7 @@ const BasicInfo = ({ rescueTypeData, speciesTypeData, statusTypeData, form }) =>
       <div className='divider' />
       <Row gutter={[10, 10]}>
         <Col xl={12}>
-          <Form.Item label="Type of rescue" name='rescue_type_id'>
+          <Form.Item label="Type of rescue" name='type_of_rescue_id'>
             <Select
               placeholder="Type of rescue"
               style={{ width: "100%" }}
@@ -38,11 +38,11 @@ const BasicInfo = ({ rescueTypeData, speciesTypeData, statusTypeData, form }) =>
         <Col xl={12}>
           <Form.Item label="Species" name='species_id'>
             <Select
-              disabled={!form.getFieldValue('rescue_type_id')}
+              disabled={!form.getFieldValue('type_of_rescue_id')}
               placeholder="Species"
               style={{ width: "100%" }}
             >
-              {speciesTypeData.filter((x) => x.rescue_type_id === +form.getFieldValue('rescue_type_id')).map((item) => (
+              {speciesTypeData.filter((x) => x.rescue_type_id === +form.getFieldValue('type_of_rescue_id')).map((item) => (
                 <Select.Option key={item.id} value={item.id}>
                   {item.name}
                 </Select.Option>

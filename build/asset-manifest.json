@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.6f4a0700.css",
-    "main.js": "/static/js/main.c3cc8198.js",
+    "main.css": "/static/css/main.8f8638e8.css",
+    "main.js": "/static/js/main.b320c0ba.js",
     "static/js/787.98633c00.chunk.js": "/static/js/787.98633c00.chunk.js",
     "static/media/indoor-dog-toys-1587002073.jpeg": "/static/media/indoor-dog-toys-1587002073.b21c4dfa70ca4b3ba107.jpeg",
     "index.html": "/index.html",
-    "main.6f4a0700.css.map": "/static/css/main.6f4a0700.css.map",
-    "main.c3cc8198.js.map": "/static/js/main.c3cc8198.js.map",
+    "main.8f8638e8.css.map": "/static/css/main.8f8638e8.css.map",
+    "main.b320c0ba.js.map": "/static/js/main.b320c0ba.js.map",
     "787.98633c00.chunk.js.map": "/static/js/787.98633c00.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.6f4a0700.css",
-    "static/js/main.c3cc8198.js"
+    "static/css/main.8f8638e8.css",
+    "static/js/main.b320c0ba.js"
   ]
 }

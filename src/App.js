@@ -4,6 +4,7 @@ import "./static/style/main.css";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Router from "./routes/routes";
+import { NotificationContainer } from "react-notifications";
 
 function App() {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ function App() {
     <div>
       <Provider store={store}>
         <Router />
+        <NotificationContainer />
       </Provider>
     </div>
   );

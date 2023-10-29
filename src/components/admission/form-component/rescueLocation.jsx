@@ -159,7 +159,7 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
         <Col xl={12}>
         </Col>
 
-        {watchRescuedByTolfa ?
+        {watchRescuedByTolfa && !staffListLoading ?
           <Col xl={12}>
             <Form.Item label="Rescue Team" name='rescue_team'>
               <Select
@@ -167,7 +167,7 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
                 placeholder="Select rescue team"
                 style={{ width: "100%" }}
                 options={
-                  rescueTeam.map((item) => ({
+                  staffListData.data.map((item) => ({
                     label: item.name,
                     value: item.id,
                   }))}
@@ -177,7 +177,7 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
           : null}
       </Row>
 
-      {rescuedByTolfa !== undefined && !rescuedByTolfa ?
+      {!rescuedByTolfa ?
         <RescuerDetail form={form} />
         : null}
     </div>
