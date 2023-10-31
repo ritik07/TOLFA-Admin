@@ -362,24 +362,25 @@
 					"name": "get",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "auth_token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZV9ubyI6Ijk1MDk2MzY1MDciLCJpYXQiOjE2OTg3NjY5NTIsImV4cCI6MTY5ODg1MzM1Mn0.hyn2IdIti7iJ92OB7eRqZCkxv1TqgJz9gR-7N1LmNk4",
+								"type": "default"
+							}
+						],
 						"url": {
-							"raw": "http://localhost:47381/api/v1/care-people?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZV9ubyI6Ijk1MDk2MzY1MDciLCJpYXQiOjE2OTcyMTg2MDYsImV4cCI6MTY5NzIyMjIwNn0.qfAV3vYCxa7VCHY9JoFot6eVf5qDaP69qZVa8w_8kwc",
-							"protocol": "http",
+							"raw": "https://tiny-teal-coral-wear.cyclic.app/api/v1/care-people",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"tiny-teal-coral-wear",
+								"cyclic",
+								"app"
 							],
-							"port": "47381",
 							"path": [
 								"api",
 								"v1",
 								"care-people"
-							],
-							"query": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZV9ubyI6Ijk1MDk2MzY1MDciLCJpYXQiOjE2OTcyMTg2MDYsImV4cCI6MTY5NzIyMjIwNn0.qfAV3vYCxa7VCHY9JoFot6eVf5qDaP69qZVa8w_8kwc"
-								}
 							]
 						}
 					},
@@ -423,6 +424,86 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "authority",
+						"value": "tiny-teal-coral-wear.cyclic.app"
+					},
+					{
+						"key": "accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "accept-language",
+						"value": "en-GB,en-US;q=0.9,en;q=0.8"
+					},
+					{
+						"key": "content-type",
+						"value": "application/json"
+					},
+					{
+						"key": "origin",
+						"value": "https://tolfa.netlify.app"
+					},
+					{
+						"key": "referer",
+						"value": "https://tolfa.netlify.app/"
+					},
+					{
+						"key": "sec-ch-ua",
+						"value": "\"Chromium\";v=\"118\", \"Google Chrome\";v=\"118\", \"Not=A?Brand\";v=\"99\""
+					},
+					{
+						"key": "sec-ch-ua-mobile",
+						"value": "?0"
+					},
+					{
+						"key": "sec-ch-ua-platform",
+						"value": "\"macOS\""
+					},
+					{
+						"key": "sec-fetch-dest",
+						"value": "empty"
+					},
+					{
+						"key": "sec-fetch-mode",
+						"value": "cors"
+					},
+					{
+						"key": "sec-fetch-site",
+						"value": "cross-site"
+					},
+					{
+						"key": "user-agent",
+						"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"phone_no\":\"9509636507\",\"password\":\"tolfa@123\"}"
+				},
+				"url": {
+					"raw": "https://tiny-teal-coral-wear.cyclic.app/api/v1/auth/login",
+					"protocol": "https",
+					"host": [
+						"tiny-teal-coral-wear",
+						"cyclic",
+						"app"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
