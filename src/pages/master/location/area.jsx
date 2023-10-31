@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Table, message } from "antd";
-import { rescueTypeColumn } from "../../../columns/master/rescue/rescueType.column";
+import { areaColumn } from "../../../columns/master/location/area.column";
 import axios from "axios";
 import { BASE_URL } from "../../../constants/server";
 import Loader from "../../../components/loader/loader";
@@ -51,7 +51,7 @@ const Area = () => {
       <div className="cs-tm-20">
         <Table
           dataSource={tableData}
-          columns={rescueTypeColumn()}
+          columns={areaColumn()}
           scroll={{ x: 1300, y: "calc(100vh - 430px)" }}
         />
       </div>

@@ -3,30 +3,58 @@ import { Card, Row, Col, Form, Input, Button } from "antd";
 import axios from "axios";
 import { BASE_URL } from "../constants/server";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUserProfile } from "../redux/actions/userProfile";
 
 const Login = () => {
+  /**
+   * @redux
+   */
+  const dispatch = useDispatch();
+
   const [form] = Form.useForm();
 
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const login = async (value) => {
+
     try {
       setLoading(true);
       let response = await axios.post(BASE_URL + "/auth/login", value);
-      console.log("response", response.data.data);
-      let storeDetail = JSON.stringify(response.data.data.id);
-      sessionStorage.setItem("user_token", response.data.data.token);
-      localStorage.setItem("user_id", storeDetail);
-      console.log("storeDetail set", storeDetail);
-      localStorage.setItem("logged_in", true);
+      let userId = JSON.stringify(response.data.data.id);
+      getUserDetails(userId)
+      syncLocalStoreage(userId)
+      syncSessionStorage(response.data.data.token)
       setTimeout(() => {
         navigate("/home");
       }, 100);
       setLoading(false);
-      console.log("value", value);
     } catch (error) {
       setLoading(false);
+    }
+  };
+
+  const syncLocalStoreage = (userId) => {
+    localStorage.setItem("user_id", userId);
+    localStorage.setItem("logged_in", true);
+  }
+
+  const syncSessionStorage = (token) => {
+    sessionStorage.setItem("user_token", token);
+    localStorage.setItem("auth_token", token);
+  }
+
+  const getUserDetails = async (userId) => {
+    try {
+      setLoading(true);
+      let userResponse = await axios.get(BASE_URL + "/user/" + userId);
+
+      dispatch(setUserProfile(userResponse.data.data));
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log("error", error);
     }
   };
 

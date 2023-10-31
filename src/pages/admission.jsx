@@ -1,12 +1,169 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Card, Input, Row, Col, Select, DatePicker, Table } from 'antd'
 import Search from 'antd/es/transfer/search'
 import AddAdmission from '../components/admission/addAdmission';
 import { admissionColumn, admissionDataSource } from '../columns/admission.column';
 import { SEX } from '../constants/main'
+import axios from 'axios'
+import { BASE_URL } from '../constants/server';
+import { handleLogout } from '../global/function.global';
 
 const Admission = () => {
+  const USER_TOKEN = sessionStorage.getItem("user_token");
+
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [fieldsData, setFieldsData] = useState({
+    rescueTypeData: [], speciesType: [], statusType: [],
+    rescueNumber: null, stateData: [], city: [], cityArea: [],
+    tolfaArea: [], tolfaBlockNumber: []
+  })
+
+  useEffect(() => {
+    // 1
+    getRescueTypeData()
+    getSpeciesType()
+    getStatusTypeData()
+    // 2
+    getStateList()
+    getCityList()
+    getCityAreaList()
+    getTolfaArea()
+    getTolfaBlockNumber()
+  }, [])
+
+  const getTolfaBlockNumber = async () => {
+    try {
+      let response = await axios.get(BASE_URL + `/block-number?token=${USER_TOKEN}`);
+      setFieldsData((prevFieldData) => ({
+        ...prevFieldData,
+        tolfaBlockNumber: response.data.data
+      }))
+    } catch (error) {
+      if (error.response.data.code === 401) {
+        handleLogout();
+      }
+      console.log("error", error);
+    }
+  };
+
+  const getTolfaArea = async () => {
+    try {
+      let response = await axios.get(BASE_URL + `/area?token=${USER_TOKEN}`);
+      setFieldsData((prevFieldData) => ({
+        ...prevFieldData,
+        tolfaArea: response.data.data
+      }))
+    } catch (error) {
+      if (error.response.data.code === 401) {
+        handleLogout();
+      }
+      console.log("error", error);
+
+    }
+  };
+
+  const getCityAreaList = async () => {
+    try {
+      let response = await axios.get(BASE_URL + `/city-area?token=${USER_TOKEN}`);
+      setFieldsData((prevFieldData) => ({
+        ...prevFieldData,
+        cityArea: response.data.data
+      }))
+    } catch (error) {
+      if (error.response.data.code === 401) {
+        handleLogout();
+      }
+      console.log("error", error);
+    }
+  };
+
+  const getCityList = async () => {
+    try {
+      let response = await axios.get(BASE_URL + `/city?token=${USER_TOKEN}`);
+      setFieldsData((prevFieldData) => ({
+        ...prevFieldData,
+        city: response.data.data
+      }))
+    } catch (error) {
+      if (error.response.data.code === 401) {
+        handleLogout();
+      }
+      console.log("error", error);
+    }
+  };
+
+  const getStateList = async () => {
+    try {
+      let response = await axios.get(BASE_URL + `/state?token=${USER_TOKEN}`);
+      setFieldsData(prevFieldsData => ({
+        ...prevFieldsData,
+        stateData: response.data.data
+      }));
+    } catch (error) {
+      if (error.response.data.code === 401) {
+        handleLogout();
+      }
+      console.log("error", error);
+    }
+  };
+
+
+  const getStatusTypeData = async () => {
+    try {
+      let response = await axios.get(
+        BASE_URL + `/animal-status?token=${USER_TOKEN}`
+      );
+      setFieldsData(prevFieldsData => ({
+        ...prevFieldsData,
+        statusType: response.data.data
+      }));
+      // setLoading(false);
+    } catch (error) {
+      if (error.response.data.code === 401) {
+        handleLogout();
+      }
+      console.log("error", error);
+      // setLoading(false);
+    }
+  };
+
+  const getRescueTypeData = async () => {
+    try {
+      let response = await axios.get(
+        BASE_URL + `/rescue-type?token=${USER_TOKEN}`
+      );
+      setFieldsData(prevFieldsData => ({
+        ...prevFieldsData,
+        rescueTypeData: response.data.data
+      }));
+      // setLoading(false);
+    } catch (error) {
+      if (error.response.data.code === 401) {
+        handleLogout();
+      }
+      console.log("error", error);
+      // setLoading(false);
+    }
+  };
+
+  const getSpeciesType = async () => {
+    try {
+      let response = await axios.get(
+        BASE_URL + `/species-type?token=${USER_TOKEN}`
+      );
+      setFieldsData(prevFieldsData => ({
+        ...prevFieldsData,
+        speciesType: response.data.data
+      }));
+      //   setLoading(false);
+    } catch (error) {
+      if (error.response.data.code === 401) {
+        handleLogout();
+      }
+      console.log("error", error);
+      // setLoading(false);
+    }
+  }
 
   const handleOnAddAdmission = () => {
     setIsModalOpen(true)
@@ -192,7 +349,7 @@ const Admission = () => {
       </div>
 
       {isModalOpen ?
-        <AddAdmission isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+        <AddAdmission fieldsData={fieldsData} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
         : null}
     </div>
   )

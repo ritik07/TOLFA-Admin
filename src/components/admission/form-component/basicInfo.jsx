@@ -1,8 +1,19 @@
-import React, { useState } from 'react'
-import { Row, Col, Form, Input, Select } from 'antd'
+import React, { useEffect } from 'react';
+import { Row, Col, Form, Select } from 'antd';
 
-const BasicInfo = () => {
-  const [rescueNo, setRescueNo] = useState('LAR0001')
+const BasicInfo = ({ rescueTypeData, speciesTypeData, statusTypeData, form }) => {
+
+  /**
+   * @watch
+   */
+  let rescueTypeId = Form.useWatch('type_of_rescue_id', form);
+
+  /**
+   * @effect
+   */
+  useEffect(() => {
+    form.setFieldsValue({ species_id: undefined })
+  }, [rescueTypeId])
 
   return (
     <div>
@@ -10,87 +21,53 @@ const BasicInfo = () => {
       <div className='divider' />
       <Row gutter={[10, 10]}>
         <Col xl={12}>
-          <Form.Item label="Type of rescue" name='type_of_rescue'>
+          <Form.Item label="Type of rescue" name='type_of_rescue_id'>
             <Select
               placeholder="Type of rescue"
               style={{ width: "100%" }}
-              options={[
-                {
-                  value: '1',
-                  label: 'Small Animal',
-                },
-                {
-                  value: '2',
-                  label: 'Large Animal',
-                }
-              ]}
-            />
+            >
+              {rescueTypeData.map((item) => (
+                <Select.Option key={item.id} value={item.id}>
+                  {item.name}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
         </Col>
 
         <Col xl={12}>
-          <Form.Item label="Species" name='species'>
+          <Form.Item label="Species" name='species_id'>
             <Select
+              disabled={!form.getFieldValue('type_of_rescue_id')}
               placeholder="Species"
               style={{ width: "100%" }}
-              options={[
-                {
-                  value: '1',
-                  label: 'Dog',
-                },
-                {
-                  value: '2',
-                  label: 'Puppy',
-                },
-                {
-                  value: '3',
-                  label: 'Cat',
-                },
-                {
-                  value: '4',
-                  label: 'Kitten',
-                },
-              ]}
-            />
+            >
+              {speciesTypeData.filter((x) => x.rescue_type_id === +form.getFieldValue('type_of_rescue_id')).map((item) => (
+                <Select.Option key={item.id} value={item.id}>
+                  {item.name}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
         </Col>
 
         <Col xl={12}>
-          <Form.Item label="Rescue Number" name="rescue_number">
-            <Input placeholder='Rescue Number' value={rescueNo} disabled />
-          </Form.Item>
-        </Col>
-
-        <Col xl={12}>
-          <Form.Item label="Status" name="status">
+          <Form.Item label="Status" name="status_id">
             <Select
               placeholder="Status"
               style={{ width: "100%" }}
-              options={[
-                {
-                  value: '1',
-                  label: 'Admitted',
-                },
-                {
-                  value: '2',
-                  label: 'Admitted - Under Treatment',
-                },
-                {
-                  value: '3',
-                  label: 'Released',
-                },
-                {
-                  value: '4',
-                  label: 'Died',
-                },
-              ]}
-            />
+            >
+              {statusTypeData.map((item) => (
+                <Select.Option key={item.id} value={item.id}>
+                  {item.name}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
         </Col>
       </Row>
-
     </div>
-  )
-}
+  );
+};
 
-export default BasicInfo
+export default BasicInfo;

@@ -4,11 +4,20 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools"; // Optional, for development
+import 'react-notifications/lib/notifications.css';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+const queryClient = new QueryClient();
+
 root.render(
   <BrowserRouter>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
+    {/* <ReactQueryDevtools /> Optional, for development */}
   </BrowserRouter>
 );
 

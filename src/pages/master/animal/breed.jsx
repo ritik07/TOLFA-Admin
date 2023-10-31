@@ -29,8 +29,7 @@ const Breed = () => {
       );
       console.log("response.data", response.data);
       setTableData(response.data.data);
-      getSpeciesTypeTypeData();
-      //   setLoading(false);
+      getSpeciesTypeTypeData(); // Call the second function after the first one is completed
     } catch (error) {
       if (error.response.data.code === 401) {
         handleLogout();

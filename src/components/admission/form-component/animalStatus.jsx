@@ -345,7 +345,8 @@ const AnimalStatus = () => {
 
         {problemType ?
           <Col xl={8}>
-            <Form.Item label={problemType !== 'sick' ? 'Injury location' : 'Symptoms'} name='symptoms'>
+            <Form.Item label={problemType !== 'sick' ? 'Injury location' : 'Symptoms'}
+              name={problemType !== 'sick' ? 'injury_location' : 'symptoms'}>
               <Select
                 mode='multiple'
                 placeholder="Please select symptoms"
@@ -361,7 +362,7 @@ const AnimalStatus = () => {
 
       <Row gutter={[10, 10]}>
         <Col xl={8}>
-          <Form.Item label='Other condition' name='other_condition'>
+          <Form.Item label='Other condition' name='alt_problem'>
             <Select
               onChange={(e) => handleOtherCondition(e)}
               placeholder="Please select other condition"
@@ -375,7 +376,7 @@ const AnimalStatus = () => {
 
         {otherCondition ?
           <Col xl={8}>
-            <Form.Item label='Problem type' name='problem_type_other_condition'>
+            <Form.Item label='Problem type' name='alt_problem_type'>
               <Select
                 mode='multiple'
                 placeholder="Please select problem type"
@@ -390,7 +391,8 @@ const AnimalStatus = () => {
 
         {otherCondition ?
           <Col xl={8}>
-            <Form.Item label={otherCondition !== 'sick' ? 'Injury location' : 'Symptoms'} name='symptoms_other_condition'>
+            <Form.Item label={otherCondition !== 'sick' ? 'Injury location' : 'Symptoms'}
+              name={otherCondition !== 'sick' ? 'alt_injury_location' : 'alt_symptoms'}>
               <Select
                 mode='multiple'
                 placeholder="Please select symptoms"
@@ -415,7 +417,7 @@ const AnimalStatus = () => {
 
         <Col xl={24}>
           <Form.Item label="Rassi No." name="rassi_no">
-            <Input placeholder='Rassi no'/>
+            <Input placeholder='Rassi no' />
           </Form.Item>
         </Col>
       </Row>

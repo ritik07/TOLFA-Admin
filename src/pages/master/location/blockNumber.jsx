@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Table, message } from "antd";
-import { cityColumn } from "../../../columns/master/location/city.column";
+import { blockNumberColumn } from "../../../columns/master/location/blockNumber.column";
 import axios from "axios";
 import { BASE_URL } from "../../../constants/server";
 import Loader from "../../../components/loader/loader";
@@ -72,7 +72,7 @@ const BlockNumber = () => {
         <div className="cs-tm-20">
           <Table
             dataSource={tableData}
-            columns={cityColumn()}
+            columns={blockNumberColumn()}
             scroll={{ x: 1300, y: "calc(100vh - 430px)" }}
           />
         </div>

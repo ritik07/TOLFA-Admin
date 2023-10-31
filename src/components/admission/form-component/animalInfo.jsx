@@ -1,46 +1,24 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col, Form, Divider, Input, Space, Button, Select, Radio } from 'antd'
+import { Row, Col, Form, Divider, Input, Space, Button, Select, Radio, Typography, Image } from 'antd'
 import { SEX } from '../../../constants/main'
-import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
-import reactCSS from 'reactcss'
-import { SketchPicker } from 'react-color'
-import TextArea from 'antd/es/input/TextArea';
+import { PlusOutlined } from '@ant-design/icons';
 
-const AnimalInfo = ({ form }) => {
-  const [mainColor, setMainColor] = useState('#ffo')
+const AnimalInfo = ({ form, breedData }) => {
+  const [imagePreview, setImagePreview] = useState(null);
 
-  const [breed, setBreed] = useState([
-    {
-      label: 'Street',
-      value: 'street',
-    },
-    {
-      label: 'Desi',
-      value: 'desi',
-    },
-    {
-      label: 'Labrador Retriever',
-      value: 'labra_retriever',
-    },
-    {
-      label: 'Golden retriever',
-      value: 'golden_retriever',
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        console.log("file", file);
+        form.setFieldsValue({ animal_image: file })
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
-  ])
-  const [newBreed, setNewBreed] = useState(undefined)
-
-  const handleNewBreed = (value) => {
-    setNewBreed(value)
-  }
-
-  const handleAddBreed = () => {
-    let temp = [...breed]
-
-    temp.push({ label: newBreed, value: newBreed })
-    setBreed(temp)
-
-    setNewBreed(undefined)
-  }
+  };
 
   const colorCompoment = () => {
     return [
@@ -53,7 +31,7 @@ const AnimalInfo = ({ form }) => {
           <div className='color-box' style={{ backgroundColor: "#000" }}>
           </div>
         </div>,
-        value: "black"
+        value: 1
       },
       {
         label: <div className='cs-dis-flex cs-jc-sb'>
@@ -67,7 +45,7 @@ const AnimalInfo = ({ form }) => {
             </div>
           </div>
         </div>,
-        value: "Black/Tan"
+        value: 2
       },
       {
         label: <div className='cs-dis-flex cs-jc-sb'>
@@ -81,7 +59,7 @@ const AnimalInfo = ({ form }) => {
             </div>
           </div>
         </div>,
-        value: "Black/White"
+        value: 3
       },
     ]
   }
@@ -123,7 +101,7 @@ const AnimalInfo = ({ form }) => {
 
       <Row gutter={[10, 10]}>
         <Col xl={8}>
-          <Form.Item label='Main color' name='main_color'>
+          <Form.Item label='Main color' name='main_color_id'>
             <Select
               placeholder="Please select main color"
               style={{
@@ -135,9 +113,9 @@ const AnimalInfo = ({ form }) => {
         </Col>
 
         <Col xl={8}>
-          <Form.Item label='2nd color' name='second_color'>
+          <Form.Item label='2nd color' name='second_color_id'>
             <Select
-              placeholder="Please select 2nd color" x
+              placeholder="Please select 2nd color"
               style={{
                 width: '100%',
               }}
@@ -147,7 +125,7 @@ const AnimalInfo = ({ form }) => {
         </Col>
 
         <Col xl={8}>
-          <Form.Item label='3rd color' name='third_color'>
+          <Form.Item label='3rd color' name='thirdcolor_id'>
             <Select
               placeholder="Please select 3rd color"
               style={{
@@ -168,7 +146,6 @@ const AnimalInfo = ({ form }) => {
       </Row>
 
       <Row gutter={[10, 10]}>
-
         <Col xl={8}>
           <Form.Item label='ID Features' name='id_features'>
             <Select
@@ -183,39 +160,35 @@ const AnimalInfo = ({ form }) => {
         </Col>
 
         <Col xl={8}>
-          <Form.Item name="Breed" label="breed">
+          <Form.Item name="breed_id" label="breed">
             <Select
               placeholder="Name of breed"
               style={{ width: "100%" }}
-              dropdownRender={(menu) => (
-                <>
-                  {menu}
-                  <Divider
-                    style={{
-                      margin: '8px 0',
-                    }}
-                  />
-                  <Space
-                    style={{
-                      padding: '0 8px 4px',
-                    }}
-                  >
-                    <Input
-                      placeholder="Please select breed"
-                      value={newBreed}
-                      onChange={(e) => handleNewBreed(e.target.value)}
-                    />
-                    <Button type="text" icon={<PlusOutlined />} onClick={handleAddBreed}>
-                      Add breed
-                    </Button>
-                  </Space>
-                </>)}
-              options={breed.map((item) => ({
-                label: item.label,
-                value: item.value,
+              options={breedData.map((item) => ({
+                label: item.name,
+                value: item.id,
               }))}
             />
           </Form.Item>
+        </Col>
+      </Row>
+
+      <Row gutter={[10, 10]}>
+        <Col xs={6}>
+          <div>
+            <Form.Item name="animal_image">
+              <Typography.Title level={5}>
+                Upload image:
+              </Typography.Title>
+              <input type="file" onChange={handleImageChange} />
+            </Form.Item>
+          </div>
+        </Col>
+
+        <Col xs={4}>
+          {imagePreview && (
+            <Image className="cs-img" src={imagePreview} alt="Uploaded image" />
+          )}
         </Col>
       </Row>
     </div>

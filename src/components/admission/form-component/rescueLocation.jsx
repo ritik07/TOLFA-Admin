@@ -1,54 +1,75 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Row, Col, Form, Divider, Input, Space, Button, Select, Radio } from 'antd'
-import { PlusOutlined } from '@ant-design/icons';
+import { useQuery } from 'react-query';
 import RescuerDetail from './rescuerDetail';
+import { fetchTolfaStaffListData } from '../../../services/master_service';
+import { defaultCaching } from '../../../constants/conifg'
+import { handleLogout } from '../../../global/function.global';
 
+const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlockNumber, }) => {
+  const AUTH_TOKEN = localStorage.getItem('auth_token');
 
-const RescueLocation = ({ form }) => {
-  const [stateList, setStateList] = useState(['ajmer', 'pushkar']);
-  const [areaList, setAreaList] = useState([
-    { name: 'sastri circle', state: "ajmer", }, { name: 'adarsh nagar', state: 'ajmer' },
-    { name: 'pushkar ghat', state: 'pushkar' }, { name: 'main chok', state: 'pushkar' }])
   const [rescueTeam, setRescueTeam] = useState([
     { name: 'Ramesh kumar', id: 122, }, { name: 'Dhanraj', id: 443 },
   ])
 
+  /**
+   * @watch
+   */
+  let watchStateId = Form.useWatch('state_id', form);
+  let watchCityId = Form.useWatch('city_id', form);
+  let watchTolfaAreaId = Form.useWatch('tolfa_area_id', form);
+  let watchRescuedByTolfa = Form.useWatch('rescue_by_tolfa', form);
+  /**
+   * @common_function
+   */
+
+  const handleQueryError = (error) => {
+    if (error.response?.data?.code === 401) {
+      handleLogout();
+    }
+  };
+
+  /**
+   * @state
+   */
   const [rescuedByTolfa, setRescuedByTolfa] = useState(undefined)
 
-  const [newState, setNewState] = useState(undefined)
-  const [selectedState, setSelectedState] = useState(undefined)
+  /**
+   * @api_calls
+   */
 
-  const onNameState = (e) => {
-    setNewState(e.target.value.toLowerCase())
-  }
+  // Define a query for rescue type data
+  const { data: staffListData, isLoading: staffListLoading, isError: staffListError } = useQuery(
+    'staffListData',
+    () => fetchTolfaStaffListData(AUTH_TOKEN),
+    {
+      ...defaultCaching,
+      onError: handleQueryError,
+      enabled: watchRescuedByTolfa ? watchRescuedByTolfa : false
+    }
+  );
 
-  const addState = () => {
-    let temp = [...stateList]
+  /**
+   * @effects
+   */
+  useEffect(() => {
+    form.setFieldsValue({ city_id: undefined, area_id: undefined })
+  }, [watchStateId])
 
-    temp.push(newState)
-    setStateList(temp)
+  useEffect(() => {
+    form.setFieldsValue({ area_id: undefined })
+  }, [watchCityId])
 
-    setNewState(undefined)
-  }
+  useEffect(() => {
+    form.setFieldsValue({ tolfa_block_id: undefined })
+  }, [watchTolfaAreaId])
 
+  /** 
+  * @functions
+  */
   const onChangeRescuedBy = (value) => {
-    console.log("value", value);
     setRescuedByTolfa(value)
-  }
-
-  const addArea = () => {
-    let temp = [...areaList]
-
-    temp.push({ name: newState, state: selectedState })
-    setAreaList(temp)
-
-    setNewState(undefined)
-  }
-
-  const onChangeState = (e) => {
-    form.setFieldsValue({ area: undefined })
-    console.log("state", e);
-    setSelectedState(e)
   }
 
   return (
@@ -57,191 +78,96 @@ const RescueLocation = ({ form }) => {
       <div className='divider' />
       <Row gutter={[10, 10]}>
         <Col xl={12}>
-          <Form.Item name="state" label="State">
+          <Form.Item name="state_id" label="State">
             <Select
               placeholder="Name of state"
-              style={{ width: "100%" }}
-              onChange={(e) => onChangeState(e)}
-              dropdownRender={(menu) => (
-                <>
-                  {menu}
-                  <Divider
-                    style={{
-                      margin: '8px 0',
-                    }}
-                  />
-                  <Space
-                    style={{
-                      padding: '0 8px 4px',
-                    }}
-                  >
-                    <Input
-                      placeholder="Please enter item"
-                      value={newState}
-                      onChange={onNameState}
-                    />
-                    <Button type="text" icon={<PlusOutlined />} onClick={addState}>
-                      Add state
-                    </Button>
-                  </Space>
-                </>)}
-              options={stateList.map((item) => ({
-                label: item,
-                value: item,
-              }))}
-            />
+              style={{ width: "100%" }}>
+              {stateData.map((item, index) => {
+                return <Select.Option key={item.id} value={item.value}>{item.name}</Select.Option>
+              })}
+            </Select>
           </Form.Item>
         </Col>
 
-
-
         <Col xl={12}>
-          <Form.Item label="Area" name='area'>
+          <Form.Item name="city_id" label="City">
             <Select
-              disabled={!selectedState}
-              placeholder="Name of area"
-              style={{ width: "100%" }}
-              dropdownRender={(menu) => (
-                <>
-                  {menu}
-                  <Divider
-                    style={{
-                      margin: '8px 0',
-                    }}
-                  />
-                  <Space
-                    style={{
-                      padding: '0 8px 4px',
-                    }}
-                  >
-                    <Input
-                      placeholder="Please enter item"
-                      value={newState}
-                      onChange={onNameState}
-                    />
-                    <Button type="text" icon={<PlusOutlined />} onClick={addArea}>
-                      Add area
-                    </Button>
-                  </Space>
-                </>)}
-              options={
-                areaList.filter((x) => x.state === selectedState).map((item) => ({
-                  label: item.name,
-                  value: item.name,
-                }))}
-            />
+              disabled={!form.getFieldValue('state_id')}
+              placeholder="Name of city"
+              style={{ width: "100%" }}>
+              {city.filter((x) => x.state_id === +form.getFieldValue('state_id')).map((item, index) => {
+                return <Select.Option key={item.id} value={item.value}>{item.name}</Select.Option>
+              })}
+            </Select>
           </Form.Item>
         </Col>
 
         <Col xl={12}>
-          <Form.Item label="Tolfa Area" name='tolfa_area'>
+          <Form.Item label="Area" name='area_id'>
+            <Select
+              disabled={!form.getFieldValue('city_id')}
+              placeholder="Name of area"
+              style={{ width: "100%" }}>
+              {cityArea.filter((x) => x.city_id === +form.getFieldValue('city_id')).map((item, index) => {
+                return <Select.Option key={item.id} value={item.value}>{item.name}</Select.Option>
+              })}
+            </Select>
+          </Form.Item>
+        </Col>
+
+        <Col xl={12}>
+          <Form.Item label="Rescue address" name='rescue_address'>
+            <Input.TextArea placeholder='Rescue address' />
+          </Form.Item>
+        </Col>
+
+        <Col xl={12}>
+          <Form.Item label="Tolfa Area" name='tolfa_area_id'>
             <Select
               placeholder="Name of TOLFA area"
               style={{ width: "100%" }}
-              // dropdownRender={(menu) => (
-              //   <>
-              //     {menu}
-              //     <Divider
-              //       style={{
-              //         margin: '8px 0',
-              //       }}
-              //     />
-              //     <Space
-              //       style={{
-              //         padding: '0 8px 4px',
-              //       }}
-              //     >
-              //       <Input
-              //         placeholder="Please enter TOLFA area"
-              //         value={newState}
-              //         onChange={onNameState}
-              //       />
-              //       <Button type="text" icon={<PlusOutlined />} onClick={addArea}>
-              //         Add area
-              //       </Button>
-              //     </Space>
-              //   </>)}
-              options={
-                [{ label: '40 kennels', value: '40_kennels' }, { label: '60 kennels', value: '60_kennels' }]}
-            />
+            >
+              {tolfaArea.map((item, index) => {
+                return <Select.Option key={item.id} value={item.value}>{item.name}</Select.Option>
+              })}
+            </Select>
           </Form.Item>
         </Col>
 
         <Col xl={12}>
-          <Form.Item label="TOLFA BLOCK Number" name='tolfa_block_number'>
+          <Form.Item label="TOLFA BLOCK Number" name='tolfa_block_id'>
             <Select
+              disabled={!form.getFieldValue('tolfa_area_id')}
               placeholder="TOLFA BLOCK Number"
-              style={{ width: "100%" }}
-              // dropdownRender={(menu) => (
-              //   <>
-              //     {menu}
-              //     <Divider
-              //       style={{
-              //         margin: '8px 0',
-              //       }}
-              //     />
-              //     <Space
-              //       style={{
-              //         padding: '0 8px 4px',
-              //       }}
-              //     >
-              //       <Input
-              //         placeholder="Please enter TOLFA area"
-              //         value={newState}
-              //         onChange={onNameState}
-              //       />
-              //       <Button type="text" icon={<PlusOutlined />} onClick={addArea}>
-              //         Add area
-              //       </Button>
-              //     </Space>
-              //   </>)}
-              options={
-                [{ label: 'A1', value: 'a1' }, { label: 'A2', value: 'a2' }]}
-            />
+              style={{ width: "100%" }}>
+              {tolfaBlockNumber.filter((x) => x.tolfa_area_id === +form.getFieldValue('tolfa_area_id')).map((item, index) => {
+                return <Select.Option key={item.id} value={item.value}>{item.name}</Select.Option>
+              })}
+            </Select>
           </Form.Item>
         </Col>
 
         <Col xl={12}>
-          <Form.Item label="Rescued by TOLFA team?" name="rescued_by_tolfa">
-            <Radio.Group onChange={(e) => onChangeRescuedBy(e.target.value)}>
+          <Form.Item label="Rescued by TOLFA team?" name="rescue_by_tolfa">
+            <Radio.Group>
               <Radio value={true}>Yes</Radio>
               <Radio value={false}>No</Radio>
             </Radio.Group>
           </Form.Item>
         </Col>
 
-        {rescuedByTolfa ?
+        <Col xl={12}>
+        </Col>
+
+        {watchRescuedByTolfa && !staffListLoading ?
           <Col xl={12}>
             <Form.Item label="Rescue Team" name='rescue_team'>
               <Select
                 mode='multiple'
                 placeholder="Select rescue team"
                 style={{ width: "100%" }}
-                dropdownRender={(menu) => (
-                  <>
-                    {menu}
-                    <Divider
-                      style={{
-                        margin: '8px 0',
-                      }}
-                    />
-                    <Space
-                      style={{
-                        padding: '0 8px 4px',
-                      }}
-                    >
-                      <Input
-                        placeholder="Please enter item"
-                        value={newState}
-                        onChange={onNameState}
-                      />
-                      <Button type="text" icon={<PlusOutlined />} onClick={addArea}>
-                        Add staff member
-                      </Button>
-                    </Space>
-                  </>)}
                 options={
-                  rescueTeam.map((item) => ({
+                  staffListData.data.map((item) => ({
                     label: item.name,
                     value: item.id,
                   }))}
@@ -251,7 +177,7 @@ const RescueLocation = ({ form }) => {
           : null}
       </Row>
 
-      {rescuedByTolfa !== undefined && !rescuedByTolfa ?
+      {!rescuedByTolfa ?
         <RescuerDetail form={form} />
         : null}
     </div>
