@@ -7,42 +7,44 @@ import AddRescueType from "../../../components/master/rescue/rescueType.modal";
 import Loader from "../../../components/loader/loader";
 import { handleLogout } from "../../../global/function.global";
 import ModalStatus from "../../../components/master/animal/status.modal";
+import { fetchStatusTypeData } from "../../../services/master_service";
+import { useQuery, useMutation } from 'react-query';
+import { defaultCaching } from '../../../constants/conifg'
 
 const Status = () => {
   const USER_TOKEN = sessionStorage.getItem("user_token");
+  const AUTH_TOKEN = localStorage.getItem('auth_token');
 
   const [messageApi, contextHolder] = message.useMessage();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [tableData, setTableData] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    getTableData();
-  }, []);
+  /**
+   * @common_function
+   */
 
-  const getTableData = async () => {
-    try {
-      let response = await axios.get(
-        BASE_URL + `/animal-status?token=${USER_TOKEN}`
-      );
-      console.log("response.data", response.data);
-      setTableData(response.data.data);
-      setLoading(false);
-    } catch (error) {
-      if (error.response.data.code === 401) {
-        handleLogout();
-      }
-      console.log("error", error);
-      setLoading(false);
+  const handleQueryError = (error) => {
+    if (error.response?.data?.code === 401) {
+      handleLogout();
     }
   };
+
+
+  // Define a query for status type data
+  const { data: statusTypeData, isLoading: statusTypeLoading, isError: statusTypeError, refetch: refetchStatusTypeData } = useQuery(
+    'statusTypeData',
+    () => fetchStatusTypeData(AUTH_TOKEN),
+    {
+      ...defaultCaching,
+      onError: handleQueryError,
+    }
+  );
 
   const handleOnAddAdmission = () => {
     setIsModalOpen(true);
   };
 
-  return !loading ? (
+  return !statusTypeLoading ? (
     <div>
       {contextHolder}
       <div className="cs-dis-flex cs-jc-end cs-m-10">
@@ -53,7 +55,7 @@ const Status = () => {
 
       <div className="cs-tm-20">
         <Table
-          dataSource={tableData}
+          dataSource={statusTypeData.data}
           columns={rescueTypeColumn()}
           scroll={{ x: 1300, y: "calc(100vh - 430px)" }}
         />
@@ -63,7 +65,7 @@ const Status = () => {
         <ModalStatus
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
-          getTableData={getTableData}
+          getTableData={refetchStatusTypeData}
           messageApi={messageApi}
         />
       ) : null}

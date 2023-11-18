@@ -1,6 +1,17 @@
 import axios from "axios";
 import { BASE_URL } from "../constants/server";
 
+export const fetchAdmissionListData = async (AUTH_TOKEN) => {
+  try {
+    const response = await axios.get(BASE_URL + "/admission", {
+      headers: { auth_token: AUTH_TOKEN },
+    });
+    return response.data;
+  } catch (error) {
+    throw error; // You can handle errors in your component
+  }
+};
+
 export const fetchRescueTypeData = async (AUTH_TOKEN) => {
   try {
     const response = await axios.get(BASE_URL + "/rescue-type", {
@@ -143,6 +154,28 @@ export const addCareUser = async (AUTH_TOKEN, payload) => {
 export const addAdmission = async (AUTH_TOKEN, payload) => {
   try {
     const response = await axios.post(BASE_URL + `/admission/create`, payload, {
+      headers: { auth_token: AUTH_TOKEN },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addBreed = async (AUTH_TOKEN, payload) => {
+  try {
+    const response = await axios.post(BASE_URL + `/breed/create`, payload, {
+      headers: { auth_token: AUTH_TOKEN },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addAnimalStatus = async (AUTH_TOKEN, payload) => {
+  try {
+    const response = await axios.post(BASE_URL + `/animal-status/create`, payload, {
       headers: { auth_token: AUTH_TOKEN },
     });
     return response.data;

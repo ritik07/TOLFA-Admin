@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Button, Card, Input, Row, Col, Select, DatePicker, Table } from 'antd'
 import Search from 'antd/es/transfer/search'
 import AddAdmission from '../components/admission/addAdmission';
-import { admissionColumn, admissionDataSource } from '../columns/admission.column';
+import { admissionColumn, } from '../columns/admission.column';
 import { SEX } from '../constants/main'
 import axios from 'axios'
 import { BASE_URL } from '../constants/server';
@@ -345,7 +345,6 @@ const Admission = () => {
       </Card>
 
       <div className='cs-tm-20'>
-        <Table dataSource={admissionDataSource} columns={admissionColumn()} scroll={{ x: 1300, y: 'calc(100vh - 430px)' }} />
       </div>
 
       {isModalOpen ?

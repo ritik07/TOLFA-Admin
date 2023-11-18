@@ -6,8 +6,25 @@
   background-color: #245953 !important;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0px !important;
+}
+
 .ant-menu {
   background-color: #245953 !important;
+}
+
+.cs-animal-pic {
+  border-radius: 10%;
+}
+
+.cs-theme-divider {
+  background-color: #e49393 !important;
 }
 
 .ant-menu-item-selected {
@@ -87,6 +104,11 @@
 .cs-theme-button {
   background-color: #245953 !important;
   color: #fff;
+}
+
+.cs-theme-button-invert {
+  border: 2px solid #245953 !important;
+  color: #000;
 }
 
 .cs-theme-button.ant-btn-default:not(:disabled):hover {

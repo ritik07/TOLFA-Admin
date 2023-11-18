@@ -3,6 +3,9 @@ import { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../../constants/server";
 import { handleLogout } from "../../../global/function.global";
+import { useQuery, useMutation } from 'react-query';
+import { createNotification } from "../../../utils/notify";
+import { addBreed } from "../../../services/master_service";
 
 const ModalBreed = ({
   isModalOpen,
@@ -13,49 +16,47 @@ const ModalBreed = ({
 }) => {
   const USER_ID = localStorage.getItem("user_id");
   const USER_TOKEN = sessionStorage.getItem("user_token");
+  const AUTH_TOKEN = localStorage.getItem('auth_token');
 
   const [form] = Form.useForm();
 
-  const [loading, setLoading] = useState(false);
   const handleCancel = () => {
     setIsModalOpen(false);
   };
 
   const onSubmit = async (value) => {
-    try {
-      let payload = {
-        ...value,
-        created_by: USER_ID,
-      };
-      setLoading(true);
-      let response = await axios.post(
-        BASE_URL + `/breed/create?token=${USER_TOKEN}`,
-        payload
-      );
-      console.log("response", response);
-      messageApi.open({
-        type: "success",
-        content: response.data.message,
-      });
-      getTableData();
-      setLoading(false);
-      setIsModalOpen(false);
-    } catch (error) {
-      if (error.response.data.code === 401) {
-        handleLogout();
-        return;
-      }
-      console.log("error", error);
-      messageApi.open({
-        type: "error",
-        content: error.response.data.message,
-      });
-
-      setLoading(false);
-      console.log("error", error);
-    }
-    console.log("value", value);
+    let payload = {
+      ...value,
+      created_by: USER_ID,
+    };
+    addBreedMutation(payload)
   };
+
+  /**
+   * @Function
+   */
+  const { mutate: addBreedMutation, isLoading, isError, isSuccess } = useMutation(
+    (formData) => addBreed(AUTH_TOKEN, formData),
+    {
+      // onSuccess callback will be called when the mutation is successful
+      onSuccess: () => {
+        createNotification("success", {
+          title: "Detail added",
+          message: "Record added",
+        });
+        form.resetFields()
+        message.success("Record added!!")
+        getTableData();
+        setIsModalOpen(false);
+        // You can perform additional actions or updates here
+      },
+      // onError callback will be called when the mutation encounters an error
+      onError: (error) => {
+        console.error('Error posting data:', error);
+        // You can handle errors or display error messages here
+      },
+    }
+  );
 
   return (
     <>
@@ -65,7 +66,7 @@ const ModalBreed = ({
         open={isModalOpen}
         onCancel={handleCancel}
         okText="Submit"
-        okButtonProps={{ loading: loading }}
+        okButtonProps={{ loading: isLoading }}
         onOk={() => {
           form
             .validateFields()
@@ -76,7 +77,7 @@ const ModalBreed = ({
               console.log("Validate Failed:", info);
             });
         }}
-        // width={"80%"}
+      // width={"80%"}
       >
         <div>
           <Form layout="vertical" form={form}>

@@ -1,4 +1,3 @@
-import dogImage from "../static/images/dummy/indoor-dog-toys-1587002073.jpeg";
 import { Image } from "antd";
 
 export const admissionColumn = () => [
@@ -54,27 +53,3 @@ export const admissionColumn = () => [
   },
 ];
 
-export const admissionDataSource = [
-  {
-    rescue_no: 1,
-    image: dogImage,
-    species: "Cat",
-    type_of_rescue: "Small animal",
-    sex: "Male",
-    status: "Adopted",
-    condition: "Good",
-    breed: "Siamese",
-    abc_status: "Done",
-  },
-  {
-    rescue_no: 2,
-    image: dogImage,
-    species: "Dog",
-    type_of_rescue: "Large animal",
-    sex: "Female",
-    status: "Admitted- under treatment",
-    condition: "Poor",
-    breed: "Labrador",
-    abc_status: "Pending",
-  },
-];

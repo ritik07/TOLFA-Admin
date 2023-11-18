@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, Form } from 'antd';
+import { Button, Card, Form, message } from 'antd';
 import { useQuery, useMutation } from 'react-query';
 import BasicInfo from '../../../components/admission/form-component/basicInfo';
 import RescueLocation from '../../../components/admission/form-component/rescueLocation';
@@ -133,6 +133,7 @@ const AddAdmission = () => {
           message: "Admission details added",
         });
         form.resetFields()
+        message.success("Record added!!")
         // You can perform additional actions or updates here
       },
       // onError callback will be called when the mutation encounters an error
@@ -148,7 +149,7 @@ const AddAdmission = () => {
       animal_name, animal_sex, age, main_color_id, second_color_id, thirdcolor_id, id_features, breed_id, animal_image,
       care_people_id, tolfa_area_id, tolfa_block_id, abc_status, tattoo_number, condition, body_score,
       caregiver_name, caregiver_number, problem, problem_type, symptoms, injury_location, alt_problem, alt_problem_type,
-      alt_symptoms, alt_injury_location, cause_of_problem, rassi_no } = payloadData
+      alt_symptoms, alt_injury_location, cause_of_problem, rassi_no, rescue_team } = payloadData
 
     function objectToFormData(obj) {
       const formData = new FormData();
@@ -204,7 +205,8 @@ const AddAdmission = () => {
         cause_of_problem,
         rassi_no,
       },
-      created_by: USER_ID
+      created_by: USER_ID,
+      tolfa_team: rescue_team
     }
 
     let formDataPayload = objectToFormData(payload);

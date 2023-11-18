@@ -7,9 +7,13 @@ import Loader from "../../../components/loader/loader";
 import { handleLogout } from "../../../global/function.global";
 import ModalSpeciesType from "../../../components/master/rescue/speciesType.modal";
 import ModalBreed from "../../../components/master/animal/breed.modal";
+import { useQuery, useMutation } from 'react-query';
+import { defaultCaching } from '../../../constants/conifg'
+import { fetchBreedListData, fetchSpeciesTypeData } from "../../../services/master_service";
 
 const Breed = () => {
   const USER_TOKEN = sessionStorage.getItem("user_token");
+  const AUTH_TOKEN = localStorage.getItem('auth_token');
 
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -18,26 +22,38 @@ const Breed = () => {
   const [loading, setLoading] = useState(true);
   const [breedTypeData, setBreedTypeData] = useState([]);
 
-  useEffect(() => {
-    getTableData();
-  }, []);
 
-  const getTableData = async () => {
-    try {
-      let response = await axios.get(
-        BASE_URL + `/breed?token=${USER_TOKEN}`
-      );
-      console.log("response.data", response.data);
-      setTableData(response.data.data);
-      getSpeciesTypeTypeData(); // Call the second function after the first one is completed
-    } catch (error) {
-      if (error.response.data.code === 401) {
-        handleLogout();
-      }
-      console.log("error", error);
-      setLoading(false);
+
+  /**
+   * @common_function
+   */
+
+  const handleQueryError = (error) => {
+    if (error.response?.data?.code === 401) {
+      handleLogout();
     }
   };
+
+
+  // Define a query for tolfa breed list data
+  const { data: breedListData, isLoading: breedListLoading, isError: breedListError, refetch: refetchBreedListData } = useQuery(
+    'breedListData',
+    () => fetchBreedListData(AUTH_TOKEN),
+    {
+      ...defaultCaching,
+      onError: handleQueryError,
+    }
+  );
+
+  // Define a query for species type data
+  const { data: speciesTypeData, isLoading: speciesTypeLoading, isError: speciesTypeError } = useQuery(
+    'speciesTypeData',
+    () => fetchSpeciesTypeData(AUTH_TOKEN),
+    {
+      ...defaultCaching,
+      onError: handleQueryError,
+    }
+  );
 
   const getSpeciesTypeTypeData = async () => {
     try {
@@ -60,7 +76,7 @@ const Breed = () => {
     setIsModalOpen(true);
   };
 
-  return !loading ? (
+  return !breedListLoading ? (
     <div>
       {contextHolder}
       <div className="cs-dis-flex cs-jc-end cs-m-10">
@@ -71,7 +87,7 @@ const Breed = () => {
 
       <div className="cs-tm-20">
         <Table
-          dataSource={tableData}
+          dataSource={breedListData.data}
           columns={speciesColumn()}
           scroll={{ x: 1300, y: "calc(100vh - 430px)" }}
         />
@@ -81,9 +97,9 @@ const Breed = () => {
         <ModalBreed
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
-          getTableData={getTableData}
+          getTableData={refetchBreedListData}
           messageApi={messageApi}
-          breedTypeData={breedTypeData}
+          breedTypeData={speciesTypeData.data}
         />
       ) : null}
     </div>
