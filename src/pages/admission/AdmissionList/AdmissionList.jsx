@@ -48,7 +48,7 @@ const AdmissionList = () => {
       {!admissionListLoading ?
         <div className='cs-tm-20'>
           <Table
-            key={admissionListData.data.rescue_id}
+            key={admissionListData.data.rescue_no}
             dataSource={admissionListData.data}
             columns={admissionColumn(handleViewDetail)}
             scroll={{ x: 1300, y: 'calc(100vh - 300px)' }} />

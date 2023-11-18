@@ -8,7 +8,6 @@ const TolfaRescueLocation = ({ rowData }) => {
 
       <TolfaLocation tolfaLocationProps={rowData} />
       
-      <Divider className='cs-theme-divider' />
     </div>
   )
 }

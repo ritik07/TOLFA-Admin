@@ -175,9 +175,45 @@ export const addBreed = async (AUTH_TOKEN, payload) => {
 
 export const addAnimalStatus = async (AUTH_TOKEN, payload) => {
   try {
-    const response = await axios.post(BASE_URL + `/animal-status/create`, payload, {
-      headers: { auth_token: AUTH_TOKEN },
-    });
+    const response = await axios.post(
+      BASE_URL + `/animal-status/create`,
+      payload,
+      {
+        headers: { auth_token: AUTH_TOKEN },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateTolfaLocation = async (AUTH_TOKEN, payload) => {
+  try {
+    const response = await axios.post(
+      BASE_URL + `/admission/update/rescue-location`,
+      payload,
+      {
+        headers: { auth_token: AUTH_TOKEN },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchTolfaLocationHistoryLogsData = async (
+  AUTH_TOKEN,
+  rescue_id
+) => {
+  try {
+    const response = await axios.get(
+      BASE_URL + `/admission/history-logs/rescue-location/${rescue_id}`,
+      {
+        headers: { auth_token: AUTH_TOKEN },
+      }
+    );
     return response.data;
   } catch (error) {
     throw error;
