@@ -6,61 +6,54 @@ import { BASE_URL } from "../../../constants/server";
 import Loader from "../../../components/loader/loader";
 import { handleLogout } from "../../../global/function.global";
 import ModalSpeciesType from "../../../components/master/rescue/speciesType.modal";
+import { fetchRescueTypeData, fetchSpeciesTypeData } from "../../../services/master_service";
+import { LongerCaching } from '../../../constants/conifg'
+import { useQuery, useMutation } from 'react-query';
 
 const SpeciesType = () => {
-  const USER_TOKEN = sessionStorage.getItem("user_token");
+  const AUTH_TOKEN = localStorage.getItem('auth_token');
 
   const [messageApi, contextHolder] = message.useMessage();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [tableData, setTableData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [rescueTypeData, setRescueTypeData] = useState([]);
-
-  useEffect(() => {
-    getTableData();
-  }, []);
-
-  const getTableData = async () => {
-    try {
-      let response = await axios.get(
-        BASE_URL + `/species-type?token=${USER_TOKEN}`
-      );
-      console.log("response.data", response.data);
-      setTableData(response.data.data);
-      getRescueTypeData();
-      //   setLoading(false);
-    } catch (error) {
-      if (error.response.data.code === 401) {
-        handleLogout();
-      }
-      console.log("error", error);
-      setLoading(false);
-    }
-  };
-
-  const getRescueTypeData = async () => {
-    try {
-      let response = await axios.get(
-        BASE_URL + `/rescue-type?token=${USER_TOKEN}`
-      );
-      console.log("response.data", response.data);
-      setRescueTypeData(response.data.data);
-      setLoading(false);
-    } catch (error) {
-      if (error.response.data.code === 401) {
-        handleLogout();
-      }
-      console.log("error", error);
-      setLoading(false);
-    }
-  };
 
   const handleOnAddAdmission = () => {
     setIsModalOpen(true);
   };
 
-  return !loading ? (
+  /**
+ * @common_function
+ */
+  const handleQueryError = (error) => {
+    if (error.response?.data?.code === 401) {
+      handleLogout();
+    }
+  };
+
+
+  // Define a query for rescue type data
+  const { data: rescueTypeData, isLoading: rescueTypeLoading, isError: rescueTypeError } = useQuery(
+    'rescueTypeData',
+    () => fetchRescueTypeData(AUTH_TOKEN),
+    {
+      ...LongerCaching,
+      onError: handleQueryError,
+    }
+  );
+
+  // Define a query for species type data
+  const { data: speciesTypeData, isLoading: speciesTypeLoading, isError: speciesTypeError, refetch: refetchSpeciesTypeData } = useQuery(
+    'speciesTypeData',
+    () => fetchSpeciesTypeData(AUTH_TOKEN),
+    {
+      ...LongerCaching,
+      onError: handleQueryError,
+    }
+  );
+
+  const overallLoading = !rescueTypeLoading && !speciesTypeLoading
+
+  return overallLoading ? (
     <div>
       {contextHolder}
       <div className="cs-dis-flex cs-jc-end cs-m-10">
@@ -71,7 +64,7 @@ const SpeciesType = () => {
 
       <div className="cs-tm-20">
         <Table
-          dataSource={tableData}
+          dataSource={speciesTypeData.data}
           columns={speciesColumn()}
           scroll={{ x: 1300, y: "calc(100vh - 430px)" }}
         />
@@ -81,9 +74,9 @@ const SpeciesType = () => {
         <ModalSpeciesType
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
-          getTableData={getTableData}
+          getTableData={refetchSpeciesTypeData}
           messageApi={messageApi}
-          rescueTypeData={rescueTypeData}
+          rescueTypeData={rescueTypeData.data}
         />
       ) : null}
     </div>

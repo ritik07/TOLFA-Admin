@@ -1,9 +1,7 @@
 import React from "react";
 import LayoutWrapper from "../layout";
 import Dashboard from "../pages/dashboard";
-import Admission from "../pages/admission";
 import Profile from "../pages/profile";
-import UserRole from "../components/master/user/userRole.modal";
 import User from "../pages/master/user/user";
 import RescueType from "../pages/master/rescue/rescueType";
 import SpeciesType from "../pages/master/rescue/speciesType";
@@ -18,6 +16,7 @@ import BlockNumber from "../pages/master/location/blockNumber";
 import Login from "../pages/login";
 import AddAdmission from "../pages/admission/AddAdmission/AddAdmission";
 import AdmissionList from "../pages/admission/AdmissionList/AdmissionList";
+import UserRole from "../pages/master/user/userRole";
 
 const Router = () => {
   return (

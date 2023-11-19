@@ -6,8 +6,12 @@ import { BASE_URL } from "../../../constants/server";
 import UserRoleModal from "../../../components/master/user/userRole.modal";
 import Loader from "../../../components/loader/loader";
 import { handleLogout } from "../../../global/function.global";
+import { defaultCaching } from '../../../constants/conifg'
+import { useQuery } from 'react-query';
+import { fetchTolfaStaffRoleListData } from "../../../services/master_service";
 
 const UserRole = () => {
+  const AUTH_TOKEN = localStorage.getItem('auth_token');
   const USER_TOKEN = sessionStorage.getItem("user_token");
   const USER_ID = localStorage.getItem("user_id");
 
@@ -15,44 +19,41 @@ const UserRole = () => {
   const [rowData, setRowData] = useState([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [tableData, setTableData] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    getTableData();
-  }, []);
-
-  const getTableData = async () => {
-    try {
-      let response = await axios.get(
-        BASE_URL + `/role/get?token=${USER_TOKEN}&user_id=${USER_ID}`
-      );
-      console.log("response.data", response.data);
-      setTableData(response.data.data);
-      setLoading(false);
-    } catch (error) {
-      if (error.response.data.code === 401) {
-        handleLogout();
-      }
-      console.log("error", error);
-      setLoading(false);
-    }
-  };
 
   const handleOnAddAdmission = () => {
     setIsModalOpen(true);
   };
 
+  /**
+ * @common_function
+ */
+  const handleQueryError = (error) => {
+    if (error.response?.data?.code === 401) {
+      handleLogout();
+    }
+  };
+
+  // Define a query for rescue type data
+  const { data: staffListRoleData, isLoading: staffListRoleLoading, isError: staffListRoleError, refetch: refetchStaffListRoleData } = useQuery(
+    'staffListRoleData',
+    () => fetchTolfaStaffRoleListData(AUTH_TOKEN),
+    {
+      ...defaultCaching,
+      onError: handleQueryError,
+    }
+  );
+
   const handleDelete = async (data) => {
     try {
       let response = await axios.put(
-        BASE_URL + `/role/delete/${data.id}?token=${USER_TOKEN}`
+        BASE_URL + `/role/delete/${data.id}`, { headers: { auth_token: AUTH_TOKEN }, }
       );
       messageApi.open({
         type: "success",
         content: response.data.message,
       });
-      getTableData();
+      refetchStaffListRoleData();
     } catch (error) {
       if (error.response.data.code === 401) {
         handleLogout();
@@ -66,7 +67,7 @@ const UserRole = () => {
     setIsModalOpen(true);
   };
 
-  return !loading ? (
+  return !staffListRoleLoading ? (
     <div>
       {contextHolder}
       <div className="cs-dis-flex cs-jc-end cs-m-10">
@@ -77,7 +78,7 @@ const UserRole = () => {
 
       <div className="cs-tm-20">
         <Table
-          dataSource={tableData}
+          dataSource={staffListRoleData.data}
           columns={userRoleColumn(handleDelete, handleUpdate)}
           scroll={{ x: 1300, y: "calc(100vh - 430px)" }}
         />
@@ -88,7 +89,7 @@ const UserRole = () => {
           rowData={rowData}
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
-          getTableData={getTableData}
+          getTableData={refetchStaffListRoleData}
           messageApi={messageApi}
         />
       ) : null}

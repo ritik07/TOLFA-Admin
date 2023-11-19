@@ -11,7 +11,7 @@ const ModalState = ({
   messageApi,
 }) => {
   const USER_ID = localStorage.getItem("user_id");
-  const USER_TOKEN = sessionStorage.getItem("user_token");
+  const AUTH_TOKEN = localStorage.getItem('auth_token');
 
   const [form] = Form.useForm();
 
@@ -28,8 +28,8 @@ const ModalState = ({
       };
       setLoading(true);
       let response = await axios.post(
-        BASE_URL + `/state/create?token=${USER_TOKEN}`,
-        payload
+        BASE_URL + `/state/create`,
+        payload, { headers: { auth_token: AUTH_TOKEN }, }
       );
       console.log("response", response);
       messageApi.open({
@@ -75,7 +75,7 @@ const ModalState = ({
               console.log("Validate Failed:", info);
             });
         }}
-        // width={"80%"}
+      // width={"80%"}
       >
         <div>
           <Form layout="vertical" form={form}>

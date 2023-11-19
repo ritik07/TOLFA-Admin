@@ -6,40 +6,43 @@ import { BASE_URL } from "../../../constants/server";
 import Loader from "../../../components/loader/loader";
 import { handleLogout } from "../../../global/function.global";
 import ModalArea from "../../../components/master/location/area.modal";
+import { fetchTolfaAreaListData } from "../../../services/master_service";
+import { LongerCaching } from '../../../constants/conifg'
+import { useQuery, useMutation } from 'react-query';
 
 const Area = () => {
-  const USER_TOKEN = sessionStorage.getItem("user_token");
+  const AUTH_TOKEN = localStorage.getItem('auth_token');
 
   const [messageApi, contextHolder] = message.useMessage();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [tableData, setTableData] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    getTableData();
-  }, []);
 
-  const getTableData = async () => {
-    try {
-      let response = await axios.get(BASE_URL + `/area?token=${USER_TOKEN}`);
-      console.log("response.data", response.data);
-      setTableData(response.data.data);
-      setLoading(false);
-    } catch (error) {
-      if (error.response.data.code === 401) {
-        handleLogout();
-      }
-      console.log("error", error);
-      setLoading(false);
+  /**
+    * @common_function
+    */
+  const handleQueryError = (error) => {
+    if (error.response?.data?.code === 401) {
+      handleLogout();
     }
   };
+
+
+  // Define a query for tolfa area list data
+  const { data: tolfaAreaListData, isLoading: tolfaAreaListLoading, isError: tolfaAreaListError, refetch: refetchTolfaAreaListData } = useQuery(
+    'tolfaAreaListData',
+    () => fetchTolfaAreaListData(AUTH_TOKEN),
+    {
+      ...LongerCaching,
+      onError: handleQueryError,
+    }
+  );
 
   const handleOnAddAdmission = () => {
     setIsModalOpen(true);
   };
 
-  return !loading ? (
+  return !tolfaAreaListLoading ? (
     <div>
       {contextHolder}
       <div className="cs-dis-flex cs-jc-end cs-m-10">
@@ -50,7 +53,7 @@ const Area = () => {
 
       <div className="cs-tm-20">
         <Table
-          dataSource={tableData}
+          dataSource={tolfaAreaListData.data}
           columns={areaColumn()}
           scroll={{ x: 1300, y: "calc(100vh - 430px)" }}
         />
@@ -60,7 +63,7 @@ const Area = () => {
         <ModalArea
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
-          getTableData={getTableData}
+          getTableData={refetchTolfaAreaListData}
           messageApi={messageApi}
         />
       ) : null}

@@ -15,7 +15,6 @@ const ModalBreed = ({
   breedTypeData,
 }) => {
   const USER_ID = localStorage.getItem("user_id");
-  const USER_TOKEN = sessionStorage.getItem("user_token");
   const AUTH_TOKEN = localStorage.getItem('auth_token');
 
   const [form] = Form.useForm();

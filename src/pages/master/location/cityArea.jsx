@@ -1,104 +1,88 @@
 import React, { useState, useEffect } from "react";
 import { Button, Table, message } from "antd";
 import { cityAreaColumn } from "../../../columns/master/location/cityArea.column";
-import axios from "axios";
-import { BASE_URL } from "../../../constants/server";
 import Loader from "../../../components/loader/loader";
 import { handleLogout } from "../../../global/function.global";
 import ModalCityArea from "../../../components/master/location/cityArea.modal";
+import { useQuery, useMutation } from 'react-query';
+import { fetchCityAreaListData, fetchCityListData, fetchStateListData } from "../../../services/master_service";
+import { LongerCaching } from '../../../constants/conifg'
 
 const CityArea = () => {
-  const USER_TOKEN = sessionStorage.getItem("user_token");
+  const AUTH_TOKEN = localStorage.getItem('auth_token');
 
   const [messageApi, contextHolder] = message.useMessage();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [tableData, setTableData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [cityData, setCityData] = useState([]);
-  const [error, setError] = useState(false);
 
-  useEffect(() => {
-    getTableData();
-  }, []);
 
-  const getTableData = async () => {
-    try {
-      let response = await axios.get(
-        BASE_URL + `/city-area?token=${USER_TOKEN}`
-      );
-      console.log("response.data", response.data);
-      setTableData(response.data.data);
-      getCityData();
-      //   setLoading(false);
-    } catch (error) {
-      if (error.response.data.code === 401) {
-        handleLogout();
-      }
-      setError(error.response?.data?.message);
-      console.log("error", error);
-      setLoading(false);
+  /**
+   * @common_function
+   */
+
+  const handleQueryError = (error) => {
+    if (error.response?.data?.code === 401) {
+      handleLogout();
     }
   };
 
-  const getCityData = async () => {
-    try {
-      let response = await axios.get(BASE_URL + `/city?token=${USER_TOKEN}`);
-      console.log("response.data", response.data);
-      setCityData(response.data.data);
-      setLoading(false);
-    } catch (error) {
-      if (error.response.data.code === 401) {
-        handleLogout();
-      }
-      setError(error.response?.data?.message);
-      console.log("error", error);
-      setLoading(false);
+  // Define a query for city list data
+  const { data: cityListData, isLoading: cityListLoading, isError: cityListError, refetch: refetchCityListData } = useQuery(
+    'cityListData',
+    () => fetchCityListData(AUTH_TOKEN),
+    {
+      ...LongerCaching,
+      onError: handleQueryError,
     }
-  };
+  );
+
+  // Define a query for city area list data
+  const { data: cityAreaListData, isLoading: cityAreaListLoading, isError: cityAreaListError, refetch: refetchCityAreaListData } = useQuery(
+    'cityAreaListData',
+    () => fetchCityAreaListData(AUTH_TOKEN),
+    {
+      ...LongerCaching,
+      onError: handleQueryError,
+    }
+  );
+
 
   const handleOnAddAdmission = () => {
     setIsModalOpen(true);
   };
 
-  return !loading ? (
-    !error ? (
-      <div>
-        {contextHolder}
-        <div className="cs-dis-flex cs-jc-end cs-m-10">
-          <Button className="cs-theme-button" onClick={handleOnAddAdmission}>
-            Add city area
-          </Button>
-        </div>
+  const overallLoading = !cityAreaListLoading && !cityListLoading
 
-        <div className="cs-tm-20">
-          <Table
-            dataSource={tableData}
-            columns={cityAreaColumn()}
-            scroll={{ x: 1300, y: "calc(100vh - 430px)" }}
-          />
-        </div>
+  return overallLoading ?
+    <div>
+      {contextHolder}
+      <div className="cs-dis-flex cs-jc-end cs-m-10">
+        <Button className="cs-theme-button" onClick={handleOnAddAdmission}>
+          Add city area
+        </Button>
+      </div>
 
-        {isModalOpen ? (
-          <ModalCityArea
-            isModalOpen={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
-            getTableData={getTableData}
-            messageApi={messageApi}
-            cityData={cityData}
-          />
-        ) : null}
+      <div className="cs-tm-20">
+        <Table
+          dataSource={cityAreaListData.data}
+          columns={cityAreaColumn()}
+          scroll={{ x: 1300, y: "calc(100vh - 430px)" }}
+        />
       </div>
-    ) : (
-      <div className="cs-dis-flex cs-hrz-center cs-vt-center cs-h-100vh">
-        <h3> Something went wrong! Please try again later</h3>
-      </div>
-    )
-  ) : (
-    <div className="cs-dis-flex cs-hrz-center cs-vt-center cs-h-100vh">
+
+      {isModalOpen ? (
+        <ModalCityArea
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          getTableData={refetchCityAreaListData}
+          messageApi={messageApi}
+          cityData={cityListData.data}
+        />
+      ) : null}
+    </div>
+    : <div className="cs-dis-flex cs-hrz-center cs-vt-center cs-h-100vh">
       <Loader />
     </div>
-  );
 };
 
 export default CityArea;

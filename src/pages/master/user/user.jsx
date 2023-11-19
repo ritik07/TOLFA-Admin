@@ -5,63 +5,64 @@ import axios from "axios";
 import { BASE_URL } from "../../../constants/server";
 import UserModal from "../../../components/master/user/user.modal";
 import Loader from "../../../components/loader/loader";
+import { useQuery } from 'react-query';
 import { handleLogout } from "../../../global/function.global";
+import { fetchTolfaStaffListData, fetchTolfaStaffRoleListData } from "../../../services/master_service";
+import { defaultCaching } from '../../../constants/conifg'
 
 const User = () => {
-  const USER_TOKEN = sessionStorage.getItem("user_token");
+  const AUTH_TOKEN = localStorage.getItem('auth_token');
   const USER_ID = localStorage.getItem("user_id");
 
   const [messageApi, contextHolder] = message.useMessage();
   const [rowData, setRowData] = useState([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [tableData, setTableData] = useState([]);
+  // const [tableData, setTableData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [userRoles, setUserRoles] = useState([]);
 
-  useEffect(() => {
-    getTableData();
-  }, []);
-
-  const getTableData = async () => {
-    try {
-      let response = await axios.get(BASE_URL + `/user?token=${USER_TOKEN}`);
-      console.log("response.data", response.data);
-      setTableData(response.data.data.data);
-      getUserRole();
-      //   setLoading(false);
-    } catch (error) {
-      if (error.response.data.code === 401) {
-        handleLogout();
-      }
-      console.log("error", error);
-      setLoading(false);
+  /**
+ * @common_function
+ */
+  const handleQueryError = (error) => {
+    if (error.response?.data?.code === 401) {
+      handleLogout();
     }
   };
 
-  const getUserRole = async () => {
-    try {
-      let response = await axios.get(
-        BASE_URL + `/role/get?token=${USER_TOKEN}&user_id=${USER_ID}`
-      );
-      console.log("response.data", response.data);
-      setUserRoles(response.data.data);
-      setLoading(false);
-    } catch (error) {
-      if (error.response.data.code === 401) {
-        handleLogout();
-      }
-      console.log("error", error);
-      setLoading(false);
+  /**
+ * @api_calls
+ */
+
+  // Define a query for rescue type data
+  const { data: staffListData, isLoading: staffListLoading, isError: staffListError, refetch: refetchStaffListData } = useQuery(
+    'staffListData',
+    () => fetchTolfaStaffListData(AUTH_TOKEN),
+    {
+      ...defaultCaching,
+      onError: handleQueryError,
     }
-  };
+  );
+
+  // Define a query for rescue type data
+  const { data: staffListRoleData, isLoading: staffListRoleLoading, isError: staffListRoleError, refetch: refetchStaffListRoleData } = useQuery(
+    'staffListRoleData',
+    () => fetchTolfaStaffRoleListData(AUTH_TOKEN),
+    {
+      ...defaultCaching,
+      onError: handleQueryError,
+    }
+  );
 
   const handleOnAdd = () => {
     setIsModalOpen(true);
   };
 
-  return !loading ? (
+  const overallLoading = !staffListRoleLoading && !staffListLoading
+
+  return overallLoading ? (
     <div>
       {contextHolder}
       <div className="cs-dis-flex cs-jc-end cs-m-10">
@@ -72,7 +73,7 @@ const User = () => {
 
       <div className="cs-tm-20">
         <Table
-          dataSource={tableData}
+          dataSource={staffListData.data}
           columns={userColumn()}
           scroll={{ x: 1300, y: "calc(100vh - 430px)" }}
         />
@@ -83,9 +84,9 @@ const User = () => {
           rowData={rowData}
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
-          getTableData={getTableData}
+          getTableData={refetchStaffListData}
           messageApi={messageApi}
-          userRoles={userRoles}
+          userRoles={staffListRoleData.data}
         />
       ) : null}
     </div>

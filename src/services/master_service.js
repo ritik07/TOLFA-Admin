@@ -111,6 +111,17 @@ export const fetchTolfaStaffListData = async (AUTH_TOKEN) => {
   }
 };
 
+export const fetchTolfaStaffRoleListData = async (AUTH_TOKEN) => {
+  try {
+    const response = await axios.get(BASE_URL + `/role/get`, {
+      headers: { auth_token: AUTH_TOKEN },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const fetchBreedListData = async (AUTH_TOKEN) => {
   try {
     const response = await axios.get(BASE_URL + `/breed`, {
@@ -145,6 +156,17 @@ export const addCareUser = async (AUTH_TOKEN, payload) => {
         headers: { auth_token: AUTH_TOKEN },
       }
     );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addTolfaUser = async (AUTH_TOKEN, payload) => {
+  try {
+    const response = await axios.post(BASE_URL + `/user/create`, payload, {
+      headers: { auth_token: AUTH_TOKEN },
+    });
     return response.data;
   } catch (error) {
     throw error;

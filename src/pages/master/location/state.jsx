@@ -1,45 +1,46 @@
 import React, { useState, useEffect } from "react";
 import { Button, Table, message } from "antd";
 import { stateColumn } from "../../../columns/master/location/state.column";
-import axios from "axios";
 import { BASE_URL } from "../../../constants/server";
 import Loader from "../../../components/loader/loader";
 import { handleLogout } from "../../../global/function.global";
 import ModalState from "../../../components/master/location/state.modal";
+import { fetchStateListData } from "../../../services/master_service";
+import { LongerCaching } from '../../../constants/conifg'
+import { useQuery, useMutation } from 'react-query';
 
 const State = () => {
-  const USER_TOKEN = sessionStorage.getItem("user_token");
+  const AUTH_TOKEN = localStorage.getItem('auth_token');
+  const USER_ID = localStorage.getItem("user_id");
 
   const [messageApi, contextHolder] = message.useMessage();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [tableData, setTableData] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    getTableData();
-  }, []);
-
-  const getTableData = async () => {
-    try {
-      let response = await axios.get(BASE_URL + `/state?token=${USER_TOKEN}`);
-      console.log("response.data", response.data);
-      setTableData(response.data.data);
-      setLoading(false);
-    } catch (error) {
-      if (error.response.data.code === 401) {
-        handleLogout();
-      }
-      console.log("error", error);
-      setLoading(false);
-    }
-  };
 
   const handleOnAddAdmission = () => {
     setIsModalOpen(true);
   };
 
-  return !loading ? (
+  /**
+   * @common_function
+   */
+  const handleQueryError = (error) => {
+    if (error.response?.data?.code === 401) {
+      handleLogout();
+    }
+  };
+
+  // Define a query for state list data
+  const { data: stateListData, isLoading: stateListLoading, isError: stateListError, refetch: refetchStateListData } = useQuery(
+    'stateListData',
+    () => fetchStateListData(AUTH_TOKEN),
+    {
+      ...LongerCaching,
+      onError: handleQueryError,
+    }
+  );
+
+  return !stateListLoading ? (
     <div>
       {contextHolder}
       <div className="cs-dis-flex cs-jc-end cs-m-10">
@@ -50,7 +51,7 @@ const State = () => {
 
       <div className="cs-tm-20">
         <Table
-          dataSource={tableData}
+          dataSource={stateListData.data}
           columns={stateColumn()}
           scroll={{ x: 1300, y: "calc(100vh - 430px)" }}
         />
@@ -60,7 +61,7 @@ const State = () => {
         <ModalState
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
-          getTableData={getTableData}
+          getTableData={refetchStateListData}
           messageApi={messageApi}
         />
       ) : null}
