@@ -203,6 +203,21 @@ export const updateTolfaLocation = async (AUTH_TOKEN, payload) => {
   }
 };
 
+export const updateTolfaAnimalStatus = async (AUTH_TOKEN, payload) => {
+  try {
+    const response = await axios.post(
+      BASE_URL + `/admission/update/rescue-animal-status`,
+      payload,
+      {
+        headers: { auth_token: AUTH_TOKEN },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const fetchTolfaLocationHistoryLogsData = async (
   AUTH_TOKEN,
   rescue_id

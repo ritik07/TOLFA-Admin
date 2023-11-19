@@ -51,7 +51,7 @@ const BasicInfo = ({ rescueTypeData, speciesTypeData, statusTypeData, form }) =>
           </Form.Item>
         </Col>
 
-        <Col xl={12}>
+        {/* <Col xl={12}>
           <Form.Item label="Status" name="status_id">
             <Select
               placeholder="Status"
@@ -64,7 +64,7 @@ const BasicInfo = ({ rescueTypeData, speciesTypeData, statusTypeData, form }) =>
               ))}
             </Select>
           </Form.Item>
-        </Col>
+        </Col> */}
       </Row>
     </div>
   );

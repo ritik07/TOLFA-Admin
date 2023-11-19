@@ -4,8 +4,9 @@ import { AndroidOutlined, AppleOutlined } from '@ant-design/icons';
 import { TABS_ITEM } from './details-modal.constant';
 import AnilmalInfo from './tabs/animal-info/anilmalInfo';
 import TolfaRescueLocation from './tabs/tolfa-rescue-location/rescue-location';
+import TolfaAnimalStatus from './tabs/tolfa-animal-status/tolfa-animal-status';
 
-const DetailModal = ({ setShowModal, rowData }) => {
+const DetailModal = ({ setShowModal, rowData, refetchAdmissionList, }) => {
   console.log("rowData", rowData);
 
   const onClose = () => {
@@ -17,9 +18,10 @@ const DetailModal = ({ setShowModal, rowData }) => {
       switch (i) {
         case "anilmal-info":
           return <AnilmalInfo rowData={rowData} />
-
         case "tolfa-rescue-location":
-          return <TolfaRescueLocation rowData={rowData} />
+          return <TolfaRescueLocation rowData={rowData} refetchAdmissionList={refetchAdmissionList} setShowModal={setShowModal} />
+        case "tolfa-animal-status":
+          return <TolfaAnimalStatus rowData={rowData} refetchAdmissionList={refetchAdmissionList} setShowModal={setShowModal} />
 
         default:
         // code block

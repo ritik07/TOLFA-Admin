@@ -5,15 +5,13 @@ import moment from 'moment'
 import { fetchTolfaLocationHistoryLogsData } from '../../../../../../../services/master_service'
 import TolfaLocationHistoryLogs from './tolfa-location-history-logs/tolfa-location-history-logs'
 
-const TolfaLocation = ({ tolfaLocationProps }) => {
+const TolfaLocation = ({ tolfaLocationProps, refetchAdmissionList, setShowModal }) => {
   const { tolfa_area_name, block_name, rescue_no, location_updated_at, } = tolfaLocationProps
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleOnUpdate = () => {
     setIsModalOpen(true)
   }
-
-
 
   return (
     <div>
@@ -71,6 +69,8 @@ const TolfaLocation = ({ tolfaLocationProps }) => {
       <TolfaLocationHistoryLogs rescue_no={rescue_no} />
 
       <TolfaLocationModal
+        setShowModal={setShowModal}
+        refetchAdmissionList={refetchAdmissionList}
         rescue_no={rescue_no}
         isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
     </div>

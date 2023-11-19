@@ -7,7 +7,7 @@ import AnimalInfo from '../../../components/admission/form-component/animalInfo'
 import AnimalStatus from '../../../components/admission/form-component/animalStatus';
 import { handleLogout } from '../../../global/function.global';
 import { addAdmission, fetchBreedListData, fetchCityAreaListData, fetchCityListData, fetchRescueTypeData, fetchSpeciesTypeData, fetchStateListData, fetchStatusTypeData, fetchTolfaAreaListData, fetchTolfaBlockNumberListData } from '../../../services/master_service';
-import { defaultCaching } from '../../../constants/conifg'
+import { LongerCaching } from '../../../constants/conifg'
 import { createNotification } from '../../../utils/notify';
 
 const AddAdmission = () => {
@@ -35,7 +35,7 @@ const AddAdmission = () => {
     'rescueTypeData',
     () => fetchRescueTypeData(AUTH_TOKEN),
     {
-      ...defaultCaching,
+      ...LongerCaching,
       onError: handleQueryError,
     }
   );
@@ -45,7 +45,7 @@ const AddAdmission = () => {
     'speciesTypeData',
     () => fetchSpeciesTypeData(AUTH_TOKEN),
     {
-      ...defaultCaching,
+      ...LongerCaching,
       onError: handleQueryError,
     }
   );
@@ -55,7 +55,7 @@ const AddAdmission = () => {
     'statusTypeData',
     () => fetchStatusTypeData(AUTH_TOKEN),
     {
-      ...defaultCaching,
+      ...LongerCaching,
       onError: handleQueryError,
     }
   );
@@ -65,7 +65,7 @@ const AddAdmission = () => {
     'stateListData',
     () => fetchStateListData(AUTH_TOKEN),
     {
-      ...defaultCaching,
+      ...LongerCaching,
       onError: handleQueryError,
     }
   );
@@ -75,7 +75,7 @@ const AddAdmission = () => {
     'cityListData',
     () => fetchCityListData(AUTH_TOKEN),
     {
-      ...defaultCaching,
+      ...LongerCaching,
       onError: handleQueryError,
     }
   );
@@ -85,7 +85,7 @@ const AddAdmission = () => {
     'cityAreaListData',
     () => fetchCityAreaListData(AUTH_TOKEN),
     {
-      ...defaultCaching,
+      ...LongerCaching,
       onError: handleQueryError,
     }
   );
@@ -95,7 +95,7 @@ const AddAdmission = () => {
     'tolfaAreaListData',
     () => fetchTolfaAreaListData(AUTH_TOKEN),
     {
-      ...defaultCaching,
+      ...LongerCaching,
       onError: handleQueryError,
     }
   );
@@ -105,7 +105,7 @@ const AddAdmission = () => {
     'tolfaBlockNumberListData',
     () => fetchTolfaBlockNumberListData(AUTH_TOKEN),
     {
-      ...defaultCaching,
+      ...LongerCaching,
       onError: handleQueryError,
     }
   );
@@ -115,7 +115,7 @@ const AddAdmission = () => {
     'breedListData',
     () => fetchBreedListData(AUTH_TOKEN),
     {
-      ...defaultCaching,
+      ...LongerCaching,
       onError: handleQueryError,
     }
   );
@@ -236,7 +236,7 @@ const AddAdmission = () => {
 
               <AnimalInfo form={form} breedData={breedListData.data} />
 
-              <AnimalStatus form={form} />
+              <AnimalStatus form={form} statusTypeData={statusTypeData.data} />
 
               <Button type="primary" htmlType="submit">
                 Submit

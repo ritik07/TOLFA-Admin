@@ -19,7 +19,7 @@ const TolfaLocationHistoryLogs = ({ rescue_no }) => {
 
   // Define a query for tolfa block list data
   const { data: tolfaLocationHistoryLogsData, isLoading: tolfaLocationHistoryLogsDataLoading, isError: tolfaLocationHistoryLogsDataListError } = useQuery(
-    'tolfaLocationHistoryLogsData',
+    `tolfaLocationHistoryLogsData${rescue_no}`,
     () => fetchTolfaLocationHistoryLogsData(AUTH_TOKEN, rescue_no),
     {
       ...LongerCaching,

@@ -26,7 +26,7 @@ const AdmissionList = () => {
     }
   };
   // Define a query for rescue type data
-  const { data: admissionListData, isLoading: admissionListLoading, isError: admissionListError } = useQuery(
+  const { data: admissionListData, isLoading: admissionListLoading, isError: admissionListError, refetch: refetchAdmissionList } = useQuery(
     'admissionListData',
     () => fetchAdmissionListData(AUTH_TOKEN),
     {
@@ -58,6 +58,7 @@ const AdmissionList = () => {
       {
         showModal ?
           <DetailModal
+            refetchAdmissionList={refetchAdmissionList}
             rowData={rowData}
             setShowModal={setShowModal}
           />

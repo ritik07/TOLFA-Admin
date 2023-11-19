@@ -7,7 +7,7 @@ import { handleLogout } from '../../../../../../../../global/function.global';
 import { createNotification } from '../../../../../../../../utils/notify';
 import Loader from '../../../../../../../../components/loader/loader';
 
-const TolfaLocationModal = ({ isModalOpen, setIsModalOpen, rescue_no }) => {
+const TolfaLocationModal = ({ isModalOpen, setIsModalOpen, rescue_no, refetchAdmissionList, setShowModal }) => {
   const AUTH_TOKEN = localStorage.getItem('auth_token');
   const USER_ID = localStorage.getItem("user_id");
 
@@ -45,6 +45,9 @@ const TolfaLocationModal = ({ isModalOpen, setIsModalOpen, rescue_no }) => {
           message: "Tolfa location details updated",
         });
         form.resetFields()
+        setShowModal(false)
+        setIsModalOpen(false)
+        refetchAdmissionList()
         message.success("Record added!!")
         // You can perform additional actions or updates here
       },
@@ -109,7 +112,6 @@ const TolfaLocationModal = ({ isModalOpen, setIsModalOpen, rescue_no }) => {
         form
           .validateFields()
           .then((values) => {
-            form.resetFields();
             onCreate(values);
           })
           .catch((info) => {
