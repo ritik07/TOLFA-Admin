@@ -125,7 +125,10 @@ const RescuerDetail = ({ form }) => {
 
       <Row gutter={[10, 10]}>
         <Col span={8}>
-          <Form.Item name="search_care_people" label="Search user by Contact no">
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            name="search_care_people" label="Search user by Contact no">
             <InputNumber className='cs-w-100' placeholder='Contact no' />
           </Form.Item>
         </Col>
@@ -138,25 +141,37 @@ const RescuerDetail = ({ form }) => {
       {rescurerExistRef.current !== null &&
         <Row gutter={[10, 10]}>
           <Col span={8}>
-            <Form.Item name="rescurer_name" label="Name">
+            <Form.Item
+              required
+              rules={[{ required: true, message: 'This field is required!' }]}
+              name="rescurer_name" label="Name">
               <Input disabled={rescurerExistRef.current} placeholder='Name of rescuer' />
             </Form.Item>
           </Col>
 
           <Col span={8}>
-            <Form.Item name="rescurer_mob_no" label="Contact no">
+            <Form.Item
+              required
+              rules={[{ required: true, message: 'This field is required!' }]}
+              name="rescurer_mob_no" label="Contact no">
               <InputNumber disabled={rescurerExistRef.current} className='cs-w-100' placeholder='Contact no' />
             </Form.Item>
           </Col>
 
           <Col span={8}>
-            <Form.Item name="rescurer_alt_mob_no" label="Alternative contact no">
+            <Form.Item
+              required
+              rules={[{ required: true, message: 'This field is required!' }]}
+              name="rescurer_alt_mob_no" label="Alternative contact no">
               <InputNumber disabled={rescurerExistRef.current} className='cs-w-100' placeholder='Alternative contact no' />
             </Form.Item>
           </Col>
 
           <Col span={8}>
-            <Form.Item name="rescurer_address" label="Rescurer Address">
+            <Form.Item
+              required
+              rules={[{ required: true, message: 'This field is required!' }]}
+              name="rescurer_address" label="Rescurer Address">
               <Input.TextArea disabled={rescurerExistRef.current} className='cs-w-100' placeholder='Rescurer Address' />
             </Form.Item>
           </Col>

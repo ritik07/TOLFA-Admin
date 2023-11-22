@@ -3,17 +3,19 @@ import TextArea from 'antd/es/input/TextArea'
 import React, { useState } from 'react'
 import { ABC_STATUS, BODY_SCORE, CONDITION, INJURY, INJURY_LOCATION, OTHER_ADMISSION, PROBLEM, SICKNESS, SICKNESS_SYMPTOMS } from '../../../constants/conifg'
 
-const AnimalStatus = ({ statusTypeData }) => {
+const AnimalStatus = ({ statusTypeData, form }) => {
 
   const [problemType, setProblemType] = useState(false)
   const [otherCondition, setOtherCondition] = useState(false)
 
   const handleProblem = (value) => {
     setProblemType(value)
+    form.setFieldsValue({ problem_type: undefined, symptoms: undefined, injury_location: undefined })
   }
 
   const handleOtherCondition = (value) => {
     setOtherCondition(value)
+    form.setFieldsValue({ alt_problem_type: undefined, alt_symptoms: undefined, alt_injury_location: undefined })
   }
 
   const computeProblemType = (value) => {
@@ -26,9 +28,30 @@ const AnimalStatus = ({ statusTypeData }) => {
         return INJURY_LOCATION
       }
     } else if (value === 'problem_type') {
-      if (problemType === 'sick') {
+      if (otherCondition === 'sick') {
         return SICKNESS
+      } else if (otherCondition === 'injured') {
+        return INJURY
+      } else {
+        return OTHER_ADMISSION
+      }
+    }
+
+  }
+
+  const computeAltProblemType = (value) => {
+    if (value === 'symptoms') {
+      if (problemType === 'sick') {
+        return SICKNESS_SYMPTOMS
       } else if (problemType === 'injured') {
+        return INJURY_LOCATION
+      } else {
+        return INJURY_LOCATION
+      }
+    } else if (value === 'problem_type') {
+      if (otherCondition === 'sick') {
+        return SICKNESS
+      } else if (otherCondition === 'injured') {
         return INJURY
       } else {
         return OTHER_ADMISSION
@@ -45,7 +68,10 @@ const AnimalStatus = ({ statusTypeData }) => {
 
       <Row gutter={[10, 10]}>
         <Col xl={8}>
-          <Form.Item label='ABC Status' name='abc_status'>
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label='ABC Status' name='abc_status'>
             <Select
               placeholder="Please select main color"
               style={{
@@ -57,7 +83,10 @@ const AnimalStatus = ({ statusTypeData }) => {
         </Col>
 
         <Col xl={8}>
-          <Form.Item label='Tattoo Number (Optional)' name='tattoo_number'>
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label='Tattoo Number (Optional)' name='tattoo_number'>
             <Input
               placeholder="Please select main color"
               style={{
@@ -69,7 +98,10 @@ const AnimalStatus = ({ statusTypeData }) => {
         </Col>
 
         <Col xl={8}>
-          <Form.Item label="Status" name="status_id">
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label="Status" name="status_id">
             <Select
               placeholder="Status"
               style={{ width: "100%" }}
@@ -86,7 +118,10 @@ const AnimalStatus = ({ statusTypeData }) => {
 
       <Row gutter={[10, 10]}>
         <Col xl={8}>
-          <Form.Item label='Condition' name='condition'>
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label='Condition' name='condition'>
             <Select
               placeholder="Please select condition"
               style={{
@@ -98,7 +133,10 @@ const AnimalStatus = ({ statusTypeData }) => {
         </Col>
 
         <Col xl={8}>
-          <Form.Item label='Body score' name='body_score'>
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label='Body score' name='body_score'>
             <Select
               placeholder="Please select Body score"
               style={{
@@ -112,13 +150,19 @@ const AnimalStatus = ({ statusTypeData }) => {
 
       <Row gutter={[10, 10]}>
         <Col xl={8}>
-          <Form.Item label='Caregiver name' name='caregiver_name'>
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label='Caregiver name' name='caregiver_name'>
             <TextArea placeholder='Caregiver name' />
           </Form.Item>
         </Col>
 
         <Col xl={8}>
-          <Form.Item label='Caregiver number' name='caregiver_number'>
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label='Caregiver number' name='caregiver_number'>
             <TextArea placeholder='Caregiver number' />
           </Form.Item>
         </Col>
@@ -126,7 +170,10 @@ const AnimalStatus = ({ statusTypeData }) => {
 
       <Row gutter={[10, 10]}>
         <Col xl={8}>
-          <Form.Item label='Problem' name='problem'>
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label='Problem' name='problem'>
             <Select
               onChange={(e) => handleProblem(e)}
               placeholder="Please select problem"
@@ -140,7 +187,10 @@ const AnimalStatus = ({ statusTypeData }) => {
 
         {problemType ?
           <Col xl={8}>
-            <Form.Item label='Problem type' name='problem_type'>
+            <Form.Item
+              required
+              rules={[{ required: true, message: 'This field is required!' }]}
+              label='Problem type' name='problem_type'>
               <Select
                 mode='multiple'
                 placeholder="Please select problem type"
@@ -155,7 +205,10 @@ const AnimalStatus = ({ statusTypeData }) => {
 
         {problemType ?
           <Col xl={8}>
-            <Form.Item label={problemType !== 'sick' ? 'Injury location' : 'Symptoms'}
+            <Form.Item
+              required
+              rules={[{ required: true, message: 'This field is required!' }]}
+              label={problemType !== 'sick' ? 'Injury location' : 'Symptoms'}
               name={problemType !== 'sick' ? 'injury_location' : 'symptoms'}>
               <Select
                 mode='multiple'
@@ -172,7 +225,10 @@ const AnimalStatus = ({ statusTypeData }) => {
 
       <Row gutter={[10, 10]}>
         <Col xl={8}>
-          <Form.Item label='Other condition' name='alt_problem'>
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label='Other condition' name='alt_problem'>
             <Select
               onChange={(e) => handleOtherCondition(e)}
               placeholder="Please select other condition"
@@ -186,7 +242,10 @@ const AnimalStatus = ({ statusTypeData }) => {
 
         {otherCondition ?
           <Col xl={8}>
-            <Form.Item label='Problem type' name='alt_problem_type'>
+            <Form.Item
+              required
+              rules={[{ required: true, message: 'This field is required!' }]}
+              label='Problem type' name='alt_problem_type'>
               <Select
                 mode='multiple'
                 placeholder="Please select problem type"
@@ -201,7 +260,10 @@ const AnimalStatus = ({ statusTypeData }) => {
 
         {otherCondition ?
           <Col xl={8}>
-            <Form.Item label={otherCondition !== 'sick' ? 'Injury location' : 'Symptoms'}
+            <Form.Item
+              required
+              rules={[{ required: true, message: 'This field is required!' }]}
+              label={otherCondition !== 'sick' ? 'Injury location' : 'Symptoms'}
               name={otherCondition !== 'sick' ? 'alt_injury_location' : 'alt_symptoms'}>
               <Select
                 mode='multiple'
@@ -209,7 +271,7 @@ const AnimalStatus = ({ statusTypeData }) => {
                 style={{
                   width: '100%',
                 }}
-                options={computeProblemType('symptoms')}
+                options={otherCondition !== 'sick' ? INJURY_LOCATION : SICKNESS}
               />
             </Form.Item>
           </Col>
@@ -219,14 +281,20 @@ const AnimalStatus = ({ statusTypeData }) => {
 
       <Row gutter={[10, 10]}>
         <Col xl={24}>
-          <Form.Item label="Cause of problem" name="cause_of_problem">
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label="Cause of problem" name="cause_of_problem">
             <TextArea placeholder='Cause of problem' />
           </Form.Item>
         </Col>
 
 
         <Col xl={24}>
-          <Form.Item label="Rassi No." name="rassi_no">
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label="Rassi No." name="rassi_no">
             <Input placeholder='Rassi no' />
           </Form.Item>
         </Col>

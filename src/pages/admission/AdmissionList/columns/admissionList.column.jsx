@@ -1,7 +1,22 @@
-import { Button, Image } from "antd";
+import { Button, Image, QRCode } from "antd";
 import { BASE_URL_ASSET } from "../../../../constants/server";
+import { CloudDownloadOutlined } from '@ant-design/icons'
+
+const downloadQRCode = () => {
+  const canvas = document.getElementById('myqrcode')?.querySelector('canvas');
+  if (canvas) {
+    const url = canvas.toDataURL();
+    const a = document.createElement('a');
+    a.download = 'QRCode.png';
+    a.href = url;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+};
 
 export const admissionColumn = (handleViewDetail) => [
+
   {
     title: "Rescue No.",
     dataIndex: "rescue_no",
@@ -56,6 +71,45 @@ export const admissionColumn = (handleViewDetail) => [
     title: "ABC status",
     dataIndex: "abc_status",
     key: "breed",
+  },
+  {
+    width: "160px",
+    title: "QR Code",
+    dataIndex: "action",
+    key: "action",
+    render: (data, rowdata) => {
+      // Assuming there is a server endpoint "/getQRCodeData" that takes an ID parameter
+      const qrCodeDataUrl = JSON.stringify({
+        "Rescue NO": rowdata.rescue_no,
+        name: rowdata.animal_name,
+        sex: rowdata.sex ? "Male" : "Female",
+        breed: rowdata.breed_name,
+        condition: rowdata.condition_value,
+        status: rowdata.animal_status_name
+      });
+
+      return (
+        <>
+          <div id="myqrcode" className="cs-dis-flex">
+            <div className="cs-vt-center cs-dis-flex">
+              <QRCode
+                size={80}
+                value={qrCodeDataUrl}
+                bgColor="#fff"
+                style={{
+                  marginBottom: 16,
+                }}
+              />
+            </div>
+
+            <div className="cs-vt-center cs-dis-flex cs-lm-10">
+              <Button style={{ borderRadius: "50%" }} icon={<CloudDownloadOutlined />} type="primary" onClick={downloadQRCode}>
+              </Button>
+            </div>
+          </div>
+        </>
+      );
+    },
   },
   {
     width: "160px",

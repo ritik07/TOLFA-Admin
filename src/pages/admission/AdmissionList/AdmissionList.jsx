@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { admissionColumn } from './columns/admissionList.column'
-import { Table } from 'antd';
+import { Table, } from 'antd';
 import { useQuery, useMutation } from 'react-query';
 import { fetchAdmissionListData } from '../../../services/master_service';
 import { LongerCaching } from '../../../constants/conifg'

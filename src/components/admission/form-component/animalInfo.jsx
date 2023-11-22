@@ -70,13 +70,19 @@ const AnimalInfo = ({ form, breedData }) => {
       <div className='divider' />
       <Row gutter={[10, 10]}>
         <Col xl={8}>
-          <Form.Item label='Animal name' name='animal_name'>
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label='Animal name' name='animal_name'>
             <Input placeholder='Animal name' />
           </Form.Item>
         </Col>
 
         <Col xl={8}>
-          <Form.Item label='Sex' name='animal_sex'>
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label='Sex' name='animal_sex'>
             <Select
               placeholder="Sex"
               style={{ width: "100%" }}
@@ -93,7 +99,10 @@ const AnimalInfo = ({ form, breedData }) => {
         </Col>
 
         <Col xl={8}>
-          <Form.Item label='Age' name='age'>
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label='Age' name='age'>
             <Input type='number' placeholder='Age' />
           </Form.Item>
         </Col>
@@ -101,7 +110,10 @@ const AnimalInfo = ({ form, breedData }) => {
 
       <Row gutter={[10, 10]}>
         <Col xl={8}>
-          <Form.Item label='Main color' name='main_color_id'>
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label='Main color' name='main_color_id'>
             <Select
               placeholder="Please select main color"
               style={{
@@ -113,7 +125,10 @@ const AnimalInfo = ({ form, breedData }) => {
         </Col>
 
         <Col xl={8}>
-          <Form.Item label='2nd color' name='second_color_id'>
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label='2nd color' name='second_color_id'>
             <Select
               placeholder="Please select 2nd color"
               style={{
@@ -125,7 +140,10 @@ const AnimalInfo = ({ form, breedData }) => {
         </Col>
 
         <Col xl={8}>
-          <Form.Item label='3rd color' name='thirdcolor_id'>
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label='3rd color' name='thirdcolor_id'>
             <Select
               placeholder="Please select 3rd color"
               style={{
@@ -147,7 +165,10 @@ const AnimalInfo = ({ form, breedData }) => {
 
       <Row gutter={[10, 10]}>
         <Col xl={8}>
-          <Form.Item label='ID Features' name='id_features'>
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label='ID Features' name='id_features'>
             <Select
               placeholder="Please enter to add multiple ID features"
               mode="tags"
@@ -160,7 +181,10 @@ const AnimalInfo = ({ form, breedData }) => {
         </Col>
 
         <Col xl={8}>
-          <Form.Item name="breed_id" label="breed">
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            name="breed_id" label="breed">
             <Select
               placeholder="Name of breed"
               style={{ width: "100%" }}
@@ -176,7 +200,10 @@ const AnimalInfo = ({ form, breedData }) => {
       <Row gutter={[10, 10]}>
         <Col xs={6}>
           <div>
-            <Form.Item name="animal_image">
+            <Form.Item
+              required
+              rules={[{ required: true, message: 'This field is required!' }]}
+              name="animal_image">
               <Typography.Title level={5}>
                 Upload image:
               </Typography.Title>

@@ -78,7 +78,10 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
       <div className='divider' />
       <Row gutter={[10, 10]}>
         <Col xl={12}>
-          <Form.Item name="state_id" label="State">
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            name="state_id" label="State">
             <Select
               placeholder="Name of state"
               style={{ width: "100%" }}>
@@ -90,7 +93,10 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
         </Col>
 
         <Col xl={12}>
-          <Form.Item name="city_id" label="City">
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            name="city_id" label="City">
             <Select
               disabled={!form.getFieldValue('state_id')}
               placeholder="Name of city"
@@ -103,7 +109,10 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
         </Col>
 
         <Col xl={12}>
-          <Form.Item label="Area" name='area_id'>
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label="Area" name='area_id'>
             <Select
               disabled={!form.getFieldValue('city_id')}
               placeholder="Name of area"
@@ -116,13 +125,19 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
         </Col>
 
         <Col xl={12}>
-          <Form.Item label="Rescue address" name='rescue_address'>
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label="Rescue address" name='rescue_address'>
             <Input.TextArea placeholder='Rescue address' />
           </Form.Item>
         </Col>
 
         <Col xl={12}>
-          <Form.Item label="Tolfa Area" name='tolfa_area_id'>
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label="Tolfa Area" name='tolfa_area_id'>
             <Select
               placeholder="Name of TOLFA area"
               style={{ width: "100%" }}
@@ -135,7 +150,10 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
         </Col>
 
         <Col xl={12}>
-          <Form.Item label="TOLFA BLOCK Number" name='tolfa_block_id'>
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label="TOLFA BLOCK Number" name='tolfa_block_id'>
             <Select
               disabled={!form.getFieldValue('tolfa_area_id')}
               placeholder="TOLFA BLOCK Number"
@@ -148,7 +166,10 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
         </Col>
 
         <Col xl={12}>
-          <Form.Item label="Rescued by TOLFA team?" name="rescue_by_tolfa">
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label="Rescued by TOLFA team?" name="rescue_by_tolfa">
             <Radio.Group>
               <Radio value={true}>Yes</Radio>
               <Radio value={false}>No</Radio>
@@ -159,15 +180,18 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
         <Col xl={12}>
         </Col>
 
-        {watchRescuedByTolfa && !staffListLoading ?
+        {watchRescuedByTolfa ?
           <Col xl={12}>
-            <Form.Item label="Rescue Team" name='rescue_team'>
+            <Form.Item
+              required
+              rules={[{ required: true, message: 'This field is required!' }]}
+              label="Rescue Team" name='rescue_team'>
               <Select
                 mode='multiple'
                 placeholder="Select rescue team"
                 style={{ width: "100%" }}
                 options={
-                  staffListData.data.map((item) => ({
+                  staffListData?.data.map((item) => ({
                     label: item.name,
                     value: item.id,
                   }))}
@@ -177,7 +201,7 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
           : null}
       </Row>
 
-      {!rescuedByTolfa ?
+      {!watchRescuedByTolfa ?
         <RescuerDetail form={form} />
         : null}
     </div>

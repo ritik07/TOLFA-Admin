@@ -21,7 +21,10 @@ const BasicInfo = ({ rescueTypeData, speciesTypeData, statusTypeData, form }) =>
       <div className='divider' />
       <Row gutter={[10, 10]}>
         <Col xl={12}>
-          <Form.Item label="Type of rescue" name='type_of_rescue_id'>
+          <Form.Item
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}
+            label="Type of rescue" name='type_of_rescue_id'>
             <Select
               placeholder="Type of rescue"
               style={{ width: "100%" }}
@@ -36,7 +39,9 @@ const BasicInfo = ({ rescueTypeData, speciesTypeData, statusTypeData, form }) =>
         </Col>
 
         <Col xl={12}>
-          <Form.Item label="Species" name='species_id'>
+          <Form.Item label="Species" name='species_id'
+            required
+            rules={[{ required: true, message: 'This field is required!' }]}>
             <Select
               disabled={!form.getFieldValue('type_of_rescue_id')}
               placeholder="Species"
