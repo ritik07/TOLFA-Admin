@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
-import { fetchCareUser } from '../services/master_service';
+import { fetchAllCareUser, } from '../services/master_service';
 
 const SelfAdmissions = () => {
   const [userData, setUserData] = useState([]);
@@ -8,7 +8,7 @@ const SelfAdmissions = () => {
 
   const fetcher = async (token) => {
     try {
-      const response = await fetchCareUser(token);
+      const response = await fetchAllCareUser(token);
       setUserData(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -19,7 +19,7 @@ const SelfAdmissions = () => {
     fetcher(token);
   }, [token]);
 
-   const columns = userData.length > 0 ? Object.keys(userData[0]).map((key) => ({
+  const columns = userData.length > 0 ? Object.keys(userData[0]).map((key) => ({
     title: key,
     dataIndex: key,
     key,
