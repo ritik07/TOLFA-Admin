@@ -36,6 +36,7 @@ export const menuItem = [
       [
         getItem("Add Admission", "add-admission"),
         getItem("Admission List", "admission-list"),
+        getItem("Self Admission List","self-admission")
       ],
       "group"
     ),

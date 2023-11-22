@@ -17,6 +17,7 @@ import Login from "../pages/login";
 import AddAdmission from "../pages/admission/AddAdmission/AddAdmission";
 import AdmissionList from "../pages/admission/AdmissionList/AdmissionList";
 import UserRole from "../pages/master/user/userRole";
+import SelfAdmissions from "../pages/caregiverdetails";
 
 const Router = () => {
   return (
@@ -26,7 +27,8 @@ const Router = () => {
           <Route path="/home" element={<Dashboard />} />
 
           <Route path="/add-admission" element={<AddAdmission />} />
-
+           <Route path="/self-admission" element={<SelfAdmissions />} />
+           
           <Route path="/admission-list" element={<AdmissionList />} />
 
           <Route path="/profile" element={<Profile />} />

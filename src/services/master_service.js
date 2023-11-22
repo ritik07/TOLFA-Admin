@@ -111,6 +111,20 @@ export const fetchTolfaStaffListData = async (AUTH_TOKEN) => {
   }
 };
 
+export const fetchCareUser = async (AUTH_TOKEN, number) => {
+  try {
+    const response = await axios.get(
+      BASE_URL + `/care-people/?mob_no=${number}`,
+      {
+        headers: { auth_token: AUTH_TOKEN },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const fetchTolfaStaffRoleListData = async (AUTH_TOKEN) => {
   try {
     const response = await axios.get(BASE_URL + `/role/get`, {
@@ -133,14 +147,11 @@ export const fetchBreedListData = async (AUTH_TOKEN) => {
   }
 };
 
-export const fetchCareUser = async (AUTH_TOKEN, number) => {
+export const fetchAllCareUser = async (AUTH_TOKEN, number) => {
   try {
-    const response = await axios.get(
-      BASE_URL + `/care-people/?mob_no=${number}`,
-      {
-        headers: { auth_token: AUTH_TOKEN },
-      }
-    );
+    const response = await axios.get(BASE_URL + `/care-people`, {
+      headers: { auth_token: AUTH_TOKEN },
+    });
     return response.data;
   } catch (error) {
     throw error;
