@@ -140,10 +140,10 @@ const TolfaLocationModal = ({ isModalOpen, setIsModalOpen, rescue_no, refetchAdm
             </Form.Item>
           </Col>
           <Col xl={12}>
-            <Form.Item label="TOLFA BLOCK Number" name='tolfa_block_id'>
+            <Form.Item label="TOLFA Kennel Number" name='tolfa_block_id'>
               <Select
                 disabled={!form.getFieldValue('tolfa_area_id')}
-                placeholder="TOLFA BLOCK Number"
+                placeholder="TOLFA Kennel Number"
                 style={{ width: "100%" }}>
                 {tolfaBlockNumberListData.data.filter((x) => x.tolfa_area_id === +form.getFieldValue('tolfa_area_id')).map((item, index) => {
                   return <Select.Option key={item.id} value={item.value}>{item.name}</Select.Option>

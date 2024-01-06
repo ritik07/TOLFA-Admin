@@ -2,6 +2,7 @@ import { Col, Image, Row, Typography } from 'antd'
 import React from 'react'
 import { BASE_URL_ASSET } from '../../../../../../../constants/server'
 import { ANIMAL_COLOR } from '../../../details-modal.constant'
+import { AGE } from '../../../../../../../constants/conifg'
 
 const Profile = ({ profileProps }) => {
   const { animal_name, animal_image, age: animal_age, breed_name,
@@ -65,7 +66,7 @@ const Profile = ({ profileProps }) => {
 
             <Col>
               <Typography.Title type='secondary' level={4}>
-                {animal_age}
+                {AGE.find((e) => (e?.value === animal_age))?.label}
               </Typography.Title>
             </Col>
           </Row>
@@ -79,7 +80,7 @@ const Profile = ({ profileProps }) => {
             </Col>
             <Col>
               <Typography.Title type='secondary' level={4}>
-                {ANIMAL_COLOR.find((x) => x.value === main_color_id).name}
+                {ANIMAL_COLOR.find((x) => x.value === main_color_id)?.name ?? "N/A"}
               </Typography.Title>
             </Col>
 
@@ -90,7 +91,7 @@ const Profile = ({ profileProps }) => {
             </Col>
             <Col>
               <Typography.Title type='secondary' level={4}>
-                {ANIMAL_COLOR.find((x) => x.value === second_color_id).name}
+                {ANIMAL_COLOR.find((x) => x.value === second_color_id)?.name ?? "N/A"}
               </Typography.Title>
             </Col>
 
@@ -101,7 +102,7 @@ const Profile = ({ profileProps }) => {
             </Col>
             <Col>
               <Typography.Title type='secondary' level={4}>
-                {ANIMAL_COLOR.find((x) => x.value === thirdcolor_id).name}
+                {ANIMAL_COLOR.find((x) => x.value === thirdcolor_id)?.name ?? "N/A"}
               </Typography.Title>
             </Col>
           </Row>

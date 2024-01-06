@@ -153,10 +153,10 @@ const RescueLocation = ({ form, stateData, city, cityArea, tolfaArea, tolfaBlock
           <Form.Item
             required
             rules={[{ required: true, message: 'This field is required!' }]}
-            label="TOLFA BLOCK Number" name='tolfa_block_id'>
+            label="TOLFA Kennel Number" name='tolfa_block_id'>
             <Select
               disabled={!form.getFieldValue('tolfa_area_id')}
-              placeholder="TOLFA BLOCK Number"
+              placeholder="TOLFA Kennel Number"
               style={{ width: "100%" }}>
               {tolfaBlockNumber.filter((x) => x.tolfa_area_id === +form.getFieldValue('tolfa_area_id')).map((item, index) => {
                 return <Select.Option key={item.id} value={item.value}>{item.name}</Select.Option>

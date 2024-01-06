@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Row, Col, Form, Divider, Input, Space, Button, Select, Radio, Typography, Image } from 'antd'
 import { SEX } from '../../../constants/main'
 import { PlusOutlined } from '@ant-design/icons';
+import { AGE } from '../../../constants/conifg';
 
 const AnimalInfo = ({ form, breedData }) => {
   const [imagePreview, setImagePreview] = useState(null);
@@ -71,8 +72,8 @@ const AnimalInfo = ({ form, breedData }) => {
       <Row gutter={[10, 10]}>
         <Col xl={8}>
           <Form.Item
-            required
-            rules={[{ required: true, message: 'This field is required!' }]}
+            // required
+            // rules={[{ required: true, message: 'This field is required!' }]}
             label='Animal name' name='animal_name'>
             <Input placeholder='Animal name' />
           </Form.Item>
@@ -103,7 +104,13 @@ const AnimalInfo = ({ form, breedData }) => {
             required
             rules={[{ required: true, message: 'This field is required!' }]}
             label='Age' name='age'>
-            <Input type='number' placeholder='Age' />
+            <Select
+              placeholder="Please select main color"
+              style={{
+                width: '100%',
+              }}
+              options={AGE}
+            />
           </Form.Item>
         </Col>
       </Row>
@@ -126,8 +133,8 @@ const AnimalInfo = ({ form, breedData }) => {
 
         <Col xl={8}>
           <Form.Item
-            required
-            rules={[{ required: true, message: 'This field is required!' }]}
+            // required
+            // rules={[{ required: true, message: 'This field is required!' }]}
             label='2nd color' name='second_color_id'>
             <Select
               placeholder="Please select 2nd color"
@@ -141,8 +148,8 @@ const AnimalInfo = ({ form, breedData }) => {
 
         <Col xl={8}>
           <Form.Item
-            required
-            rules={[{ required: true, message: 'This field is required!' }]}
+            // required
+            // rules={[{ required: true, message: 'This field is required!' }]}
             label='3rd color' name='thirdcolor_id'>
             <Select
               placeholder="Please select 3rd color"
@@ -166,8 +173,8 @@ const AnimalInfo = ({ form, breedData }) => {
       <Row gutter={[10, 10]}>
         <Col xl={8}>
           <Form.Item
-            required
-            rules={[{ required: true, message: 'This field is required!' }]}
+            // required
+            // rules={[{ required: true, message: 'This field is required!' }]}
             label='ID Features' name='id_features'>
             <Select
               placeholder="Please enter to add multiple ID features"
@@ -201,8 +208,8 @@ const AnimalInfo = ({ form, breedData }) => {
         <Col xs={6}>
           <div>
             <Form.Item
-              required
-              rules={[{ required: true, message: 'This field is required!' }]}
+              // required
+              // rules={[{ required: true, message: 'This field is required!' }]}
               name="animal_image">
               <Typography.Title level={5}>
                 Upload image:

@@ -1,6 +1,5 @@
 import React from "react";
 import LayoutWrapper from "../layout";
-import Dashboard from "../pages/dashboard";
 import Profile from "../pages/profile";
 import User from "../pages/master/user/user";
 import RescueType from "../pages/master/rescue/rescueType";
@@ -18,6 +17,7 @@ import AddAdmission from "../pages/admission/AddAdmission/AddAdmission";
 import AdmissionList from "../pages/admission/AdmissionList/AdmissionList";
 import UserRole from "../pages/master/user/userRole";
 import SelfAdmissions from "../pages/caregiverdetails";
+import Dashboard from "../pages/dashboard/dashboard";
 
 const Router = () => {
   return (
@@ -27,8 +27,8 @@ const Router = () => {
           <Route path="/home" element={<Dashboard />} />
 
           <Route path="/add-admission" element={<AddAdmission />} />
-           <Route path="/self-admission" element={<SelfAdmissions />} />
-           
+          <Route path="/self-admission" element={<SelfAdmissions />} />
+
           <Route path="/admission-list" element={<AdmissionList />} />
 
           <Route path="/profile" element={<Profile />} />

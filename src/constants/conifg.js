@@ -10,6 +10,14 @@ export const LongerCaching = {
   retry: 3,
 };
 
+export const AGE = [
+  { label: "New Born", value: 1 },
+  { label: "Young - Under 6 months", value: 2 },
+  { label: "Juvenile 6+ Months", value: 3 },
+  { label: "Adult", value: 4 },
+  { label: "Old", value: 5 },
+];
+
 export const ABC_STATUS = [
   {
     label: "Already operated",

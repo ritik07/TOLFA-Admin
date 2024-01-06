@@ -84,15 +84,14 @@ const AnimalStatus = ({ statusTypeData, form }) => {
 
         <Col xl={8}>
           <Form.Item
-            required
-            rules={[{ required: true, message: 'This field is required!' }]}
+            // required
+            // rules={[{ required: true, message: 'This field is required!' }]}
             label='Tattoo Number (Optional)' name='tattoo_number'>
             <Input
               placeholder="Please select main color"
               style={{
                 width: '100%',
               }}
-              options={ABC_STATUS}
             />
           </Form.Item>
         </Col>
@@ -160,8 +159,8 @@ const AnimalStatus = ({ statusTypeData, form }) => {
 
         <Col xl={8}>
           <Form.Item
-            required
-            rules={[{ required: true, message: 'This field is required!' }]}
+            // required
+            // rules={[{ required: true, message: 'This field is required!' }]}
             label='Caregiver number' name='caregiver_number'>
             <TextArea placeholder='Caregiver number' />
           </Form.Item>
@@ -226,8 +225,8 @@ const AnimalStatus = ({ statusTypeData, form }) => {
       <Row gutter={[10, 10]}>
         <Col xl={8}>
           <Form.Item
-            required
-            rules={[{ required: true, message: 'This field is required!' }]}
+            // required
+            // rules={[{ required: true, message: 'This field is required!' }]}
             label='Other condition' name='alt_problem'>
             <Select
               onChange={(e) => handleOtherCondition(e)}
@@ -282,8 +281,8 @@ const AnimalStatus = ({ statusTypeData, form }) => {
       <Row gutter={[10, 10]}>
         <Col xl={24}>
           <Form.Item
-            required
-            rules={[{ required: true, message: 'This field is required!' }]}
+            // required
+            // rules={[{ required: true, message: 'This field is required!' }]}
             label="Cause of problem" name="cause_of_problem">
             <TextArea placeholder='Cause of problem' />
           </Form.Item>
@@ -292,8 +291,8 @@ const AnimalStatus = ({ statusTypeData, form }) => {
 
         <Col xl={24}>
           <Form.Item
-            required
-            rules={[{ required: true, message: 'This field is required!' }]}
+            // required
+            // rules={[{ required: true, message: 'This field is required!' }]}
             label="Rassi No." name="rassi_no">
             <Input placeholder='Rassi no' />
           </Form.Item>

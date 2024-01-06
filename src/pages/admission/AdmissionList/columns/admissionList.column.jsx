@@ -1,6 +1,7 @@
 import { Button, Image, QRCode } from "antd";
 import { BASE_URL_ASSET } from "../../../../constants/server";
 import { CloudDownloadOutlined } from '@ant-design/icons'
+import defaultImage from '../../../../static/images/dummy/image_1698585850921.jpeg'
 
 const downloadQRCode = () => {
   const canvas = document.getElementById('myqrcode')?.querySelector('canvas');
@@ -21,6 +22,21 @@ export const admissionColumn = (handleViewDetail) => [
     title: "Rescue No.",
     dataIndex: "rescue_no",
     key: "rescue_no",
+    // render: (data, items) => {
+    //   return <div>
+    //     {items.rescue_type_name === "small" ? <div>{"S" + data}</div> : <div>{"L" + data}</div>}
+    //   </div>
+    // }
+  },
+  {
+    title: "Rescue Type",
+    dataIndex: "rescue_no",
+    key: "rescue_no",
+    render: (data, items) => {
+      return <div>
+        {items.rescue_type_name === "small" ? <div>{"S" + data}</div> : <div>{"L" + data}</div>}
+      </div>
+    }
   },
   {
     title: "Image",
@@ -28,7 +44,11 @@ export const admissionColumn = (handleViewDetail) => [
     key: "animal_image",
     render: (data) => (
       <div>
-        <Image src={BASE_URL_ASSET + data} className="admission-table-profile-image" />
+        <Image src={BASE_URL_ASSET + data}
+          onError={(e) => {
+            e.target.src = defaultImage;
+          }}
+          className="admission-table-profile-image" />
       </div>
     ),
   },
