@@ -1,5 +1,5 @@
+import { useState, useEffect } from "react";
 import { Modal, Row, Col, Form, Input, message, Select } from "antd";
-import { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../../constants/server";
 import { handleLogout } from "../../../global/function.global";
@@ -10,6 +10,7 @@ const ModalSpeciesType = ({
   getTableData,
   messageApi,
   rescueTypeData,
+  rowData
 }) => {
   const USER_ID = localStorage.getItem("user_id");
   const AUTH_TOKEN = localStorage.getItem('auth_token');
@@ -17,21 +18,40 @@ const ModalSpeciesType = ({
   const [form] = Form.useForm();
 
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (rowData) {
+      form.setFieldsValue(rowData)
+    }
+  }, [])
+
   const handleCancel = () => {
-    setIsModalOpen(false);
+    setIsModalOpen(undefined, false);
   };
 
   const onSubmit = async (value) => {
     try {
       let payload = {
+        ...rowData,
         ...value,
         created_by: USER_ID,
       };
+      // return console.log("payload", payload);
       setLoading(true);
-      let response = await axios.post(
-        BASE_URL + `/species-type/create`,
-        payload, { headers: { auth_token: AUTH_TOKEN }, }
-      );
+      let URL = BASE_URL + `/species-type/${rowData ? "update" : "create"}`
+      let response
+      if (!rowData) {
+        response = await axios.post(
+          URL,
+          payload, { headers: { auth_token: AUTH_TOKEN }, }
+        );
+      } else {
+        response = await axios.put(
+          URL,
+          payload, { headers: { auth_token: AUTH_TOKEN }, }
+        );
+
+      }
       console.log("response", response);
       messageApi.open({
         type: "success",
@@ -39,7 +59,7 @@ const ModalSpeciesType = ({
       });
       getTableData();
       setLoading(false);
-      setIsModalOpen(false);
+      setIsModalOpen(undefined, false);
     } catch (error) {
       if (error.response.data.code === 401) {
         handleLogout();
@@ -61,7 +81,7 @@ const ModalSpeciesType = ({
     <>
       <Modal
         maskClosable={false}
-        title="Add Species type"
+        title={`${rowData ? "Update" : "Add"} Species type`}
         open={isModalOpen}
         onCancel={handleCancel}
         okText="Submit"

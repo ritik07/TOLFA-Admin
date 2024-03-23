@@ -1,6 +1,7 @@
 import moment from "moment";
+import { Button } from "antd";
 
-export const speciesColumn = () => [
+export const speciesColumn = (handleOnAddAdmission) => [
   {
     title: "Name",
     dataIndex: "name",
@@ -34,5 +35,17 @@ export const speciesColumn = () => [
     dataIndex: "updated_at",
     key: "updated_at",
     render: (value) => moment(value).format("YYYY-MM-DD hh:mm A"),
+  },
+  {
+    title: "Action",
+    dataIndex: "",
+    key: "",
+    render: (data) => {
+      return (
+        <Button onClick={() => handleOnAddAdmission(data, true)} type="primary">
+          Edit
+        </Button>
+      );
+    },
   },
 ];

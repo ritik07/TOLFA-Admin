@@ -16,9 +16,12 @@ const SpeciesType = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [rowData, setRowData] = useState(undefined)
 
-  const handleOnAddAdmission = () => {
-    setIsModalOpen(true);
+  const handleOnAddAdmission = (data, show) => {
+    console.log("hereeeee", data)
+    setIsModalOpen(show);
+    setRowData(data)
   };
 
   /**
@@ -57,7 +60,7 @@ const SpeciesType = () => {
     <div>
       {contextHolder}
       <div className="cs-dis-flex cs-jc-end cs-m-10">
-        <Button className="cs-theme-button" onClick={handleOnAddAdmission}>
+        <Button className="cs-theme-button" onClick={() => handleOnAddAdmission(undefined, true)}>
           Add rescue type
         </Button>
       </div>
@@ -65,7 +68,7 @@ const SpeciesType = () => {
       <div className="cs-tm-20">
         <Table
           dataSource={speciesTypeData.data}
-          columns={speciesColumn()}
+          columns={speciesColumn(handleOnAddAdmission)}
           scroll={{ x: 1300, y: "calc(100vh - 430px)" }}
         />
       </div>
@@ -73,10 +76,11 @@ const SpeciesType = () => {
       {isModalOpen ? (
         <ModalSpeciesType
           isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
+          setIsModalOpen={handleOnAddAdmission}
           getTableData={refetchSpeciesTypeData}
           messageApi={messageApi}
           rescueTypeData={rescueTypeData.data}
+          rowData={rowData}
         />
       ) : null}
     </div>

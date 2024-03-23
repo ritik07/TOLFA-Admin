@@ -5,11 +5,11 @@ import axios from "axios";
 import { BASE_URL } from "../../../constants/server";
 import Loader from "../../../components/loader/loader";
 import { handleLogout } from "../../../global/function.global";
-import ModalSpeciesType from "../../../components/master/rescue/speciesType.modal";
 import ModalBreed from "../../../components/master/animal/breed.modal";
 import { useQuery, useMutation } from 'react-query';
 import { defaultCaching } from '../../../constants/conifg'
 import { fetchBreedListData, fetchSpeciesTypeData } from "../../../services/master_service";
+import { breedColumn } from "./breed.column";
 
 const Breed = () => {
   const USER_TOKEN = sessionStorage.getItem("user_token");
@@ -88,7 +88,7 @@ const Breed = () => {
       <div className="cs-tm-20">
         <Table
           dataSource={breedListData.data}
-          columns={speciesColumn()}
+          columns={breedColumn()}
           scroll={{ x: 1300, y: "calc(100vh - 430px)" }}
         />
       </div>
