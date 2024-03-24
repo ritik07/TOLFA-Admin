@@ -1,5 +1,5 @@
+import { useState, useEffect } from "react";
 import { Modal, Row, Col, Form, Input, message, Select } from "antd";
-import { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../../constants/server";
 import { handleLogout } from "../../../global/function.global";
@@ -10,6 +10,7 @@ const ModalCity = ({
   getTableData,
   messageApi,
   stateData,
+  rowData
 }) => {
   const USER_ID = localStorage.getItem("user_id");
   const AUTH_TOKEN = localStorage.getItem('auth_token');
@@ -21,22 +22,35 @@ const ModalCity = ({
     setIsModalOpen(false);
   };
 
+  useEffect(() => {
+    if (rowData) {
+      console.log("rowData", rowData)
+      form.setFieldsValue(rowData)
+    }
+  }, [])
+
   const onSubmit = async (value) => {
     try {
       let payload = {
+        ...rowData,
         ...value,
         created_by: USER_ID,
       };
+      // return console.log("payload", payload);
       setLoading(true);
-      let response = await axios.post(
-        BASE_URL + `/city/create`,
-        payload, { headers: { auth_token: AUTH_TOKEN }, }
-      );
-      console.log("response", response);
-      messageApi.open({
-        type: "success",
-        content: response.data.message,
-      });
+      let URL = BASE_URL + `/city/${rowData ? "update" : "create"}`
+      let response
+      if (!rowData) {
+        response = await axios.post(
+          URL,
+          payload, { headers: { auth_token: AUTH_TOKEN }, }
+        );
+      } else {
+        response = await axios.put(
+          URL,
+          payload, { headers: { auth_token: AUTH_TOKEN }, }
+        );
+      }
       getTableData();
       setLoading(false);
       setIsModalOpen(false);

@@ -19,6 +19,7 @@ const City = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const [rowData, setRowData] = useState(undefined)
 
   /**
    * @common_function
@@ -51,8 +52,9 @@ const City = () => {
     }
   );
 
-  const handleOnAddAdmission = () => {
-    setIsModalOpen(true);
+  const handleOnAddAdmission = (data, show) => {
+    setIsModalOpen(show);
+    setRowData(data)
   };
 
   const overallLoading = !stateListLoading && !cityListLoading
@@ -61,7 +63,7 @@ const City = () => {
     <div>
       {contextHolder}
       <div className="cs-dis-flex cs-jc-end cs-m-10">
-        <Button className="cs-theme-button" onClick={handleOnAddAdmission}>
+        <Button className="cs-theme-button" onClick={() => handleOnAddAdmission(undefined, true)}>
           Add city
         </Button>
       </div>
@@ -69,7 +71,7 @@ const City = () => {
       <div className="cs-tm-20">
         <Table
           dataSource={cityListData.data}
-          columns={cityColumn()}
+          columns={cityColumn(handleOnAddAdmission)}
           scroll={{ x: 1300, y: "calc(100vh - 430px)" }}
         />
       </div>
@@ -81,6 +83,7 @@ const City = () => {
           getTableData={refetchCityListData}
           messageApi={messageApi}
           stateData={stateListData.data}
+          rowData={rowData}
         />
       ) : null}
     </div>

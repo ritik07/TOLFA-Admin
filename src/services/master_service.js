@@ -236,6 +236,21 @@ export const updateTolfaLocation = async (AUTH_TOKEN, payload) => {
   }
 };
 
+export const updateTolfaCity = async (AUTH_TOKEN, payload) => {
+  try {
+    const response = await axios.put(
+      BASE_URL + `/city/update`,
+      payload,
+      {
+        headers: { auth_token: AUTH_TOKEN },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const updateTolfaAnimalStatus = async (AUTH_TOKEN, payload) => {
   try {
     const response = await axios.post(

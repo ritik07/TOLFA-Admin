@@ -50,9 +50,7 @@ const ModalSpeciesType = ({
           URL,
           payload, { headers: { auth_token: AUTH_TOKEN }, }
         );
-
       }
-      console.log("response", response);
       messageApi.open({
         type: "success",
         content: response.data.message,

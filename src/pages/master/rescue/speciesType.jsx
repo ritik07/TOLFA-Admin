@@ -19,7 +19,6 @@ const SpeciesType = () => {
   const [rowData, setRowData] = useState(undefined)
 
   const handleOnAddAdmission = (data, show) => {
-    console.log("hereeeee", data)
     setIsModalOpen(show);
     setRowData(data)
   };
